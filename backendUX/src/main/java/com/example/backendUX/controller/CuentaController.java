@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,14 +23,20 @@ public class CuentaController {
         this.cuentaService = cuentaService;
     }
 
-    //Obtener todas las facturas
+    //Obtener todas las cuentas
     @GetMapping(value="/allCu")
     public List<Cuenta> getAll(){
         List<Cuenta> cuentas = cuentaService.getAll();
         return cuentas;
     }
 
-    //Guardar nueva factura
+    //Seleccionar una cuenta
+    @GetMapping(value="/findCu/{id}")
+    public Cuenta find(@PathVariable String id){
+        return cuentaService.get(id);
+    }
+
+    //Guardar cuenta (no es parte del sistema, solo para probar)
     @PostMapping(value="/saveCu")
     public ResponseEntity<Cuenta> save(@RequestBody Cuenta cuenta){
         Cuenta obj = cuentaService.save(cuenta);

@@ -1,6 +1,6 @@
 package com.example.backendUX.model;
 
-import java.util.Date;
+//import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,7 +16,8 @@ public class Factura {
     private int monto;
     private String mensaje;
 
-    private Transaccion transaccion;
+    //Id de la transaccion
+    private String IDtransaccion;
 
     public Factura(){
 
@@ -30,7 +31,7 @@ public class Factura {
         this.fecha = fecha;
         this.monto = monto;
         this.mensaje = mensaje;
-        transaccion = new Transaccion(id, 30, new Date());
+        //transaccion = new Transaccion(id, 30, new Date());
     }
 
     public String getId() {
@@ -81,14 +82,13 @@ public class Factura {
         this.mensaje = mensaje;
     }
 
-    public Transaccion getTransaccion() {
-        return transaccion;
+    public String getTransaccion() {
+        return IDtransaccion;
     }
 
-    public void setTransaccion(Transaccion transaccion) {
-        this.transaccion = transaccion;
-    }
-    
+    public void setTransaccion(String transaccion) {
+        this.IDtransaccion = transaccion;
+    }    
     
     
 }

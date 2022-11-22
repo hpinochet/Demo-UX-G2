@@ -1,8 +1,9 @@
 package com.example.backendUX.model;
 
-import java.util.List;
 
-//import org.bson.types.ObjectId;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,8 +17,10 @@ public class Cuenta {
     private String banco;
     private int saldo;
 
-    private List<Factura> facturas;
-    private Transaccion transacciones;
+    //listado de Ids de cada factura
+    private List<String> IDfacturas = new ArrayList<String>();
+    
+    //private Transaccion transacciones;
 
     public Cuenta(){
 
@@ -25,14 +28,12 @@ public class Cuenta {
 
 
 
-    public Cuenta(String id, int numero_cuenta, String tipo_cuenta, String banco, int saldo, List<Factura> facturas, Transaccion transacciones) {
+    public Cuenta(String id, int numero_cuenta, String tipo_cuenta, String banco, int saldo) {
         this.id = id;
         this.numero_cuenta = numero_cuenta;
         this.tipo_cuenta = tipo_cuenta;
         this.banco = banco;
         this.saldo = saldo;
-        this.facturas = facturas;
-        this.transacciones = transacciones;
     }
 
 
@@ -97,18 +98,18 @@ public class Cuenta {
 
 
 
-    public List<Factura> getFacturas() {
-        return facturas;
+    public List<String> getFacturas() {
+        return IDfacturas;
     }
 
 
 
-    public void setFacturas(List<Factura> facturas) {
-        this.facturas = facturas;
+    public void setFacturas(List<String> IDfacturas) {
+        this.IDfacturas = IDfacturas;
     }
 
 
-
+/* 
     public Transaccion getTransacciones() {
         return transacciones;
     }
@@ -119,6 +120,6 @@ public class Cuenta {
         this.transacciones = transacciones;
     }
 
-    
+   */ 
     
 }

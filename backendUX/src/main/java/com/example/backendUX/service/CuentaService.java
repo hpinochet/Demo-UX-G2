@@ -1,6 +1,7 @@
 package com.example.backendUX.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,24 @@ public class CuentaService {
         this.cuentaRepository = cuentaRepository;
     }
 
-    // Listado de facturas
+    // Listado de cuentas
     public List<Cuenta> getAll(){
         List<Cuenta> list = cuentaRepository.findAll();
         return list;
     }
 
-    // Crear factura
+    // Crear cuenta (solo para prueba, no es parte del sistema)
     public Cuenta save(Cuenta entity){
         Cuenta nuevFactura = cuentaRepository.save(entity);
         return nuevFactura;
+    }
+
+    // Obtener cuenta
+    public Cuenta get(String id){
+        Optional<Cuenta> obj = cuentaRepository.findById(id);
+        if(obj.isPresent()){
+            return obj.get();
+        }
+        return null;
     }
 }
