@@ -23,14 +23,14 @@ public class FacturaController {
     }
 
     //Obtener todas las facturas
-    @GetMapping(value="/all")
+    @GetMapping(value="/allFacts")
     public List<Factura> getAll(){
         List<Factura> facturas = facturaService.getAll();
         return facturas;
     }
 
     //Guardar nueva factura
-    @PostMapping(value="/save")
+    @PostMapping(value="/saveFact")
     public ResponseEntity<Factura> save(@RequestBody Factura factura){
         Factura obj = facturaService.save(factura);
         return new ResponseEntity<Factura>(obj, HttpStatus.OK);

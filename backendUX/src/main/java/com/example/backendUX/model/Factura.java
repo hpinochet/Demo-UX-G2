@@ -1,13 +1,14 @@
 package com.example.backendUX.model;
 
-import org.bson.types.ObjectId;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "factura")
 public class Factura {
     @Id
-    private ObjectId id;
+    private String id;
     
     private String nombre_acreedor;
     private String cuenta_acreedor;
@@ -15,13 +16,13 @@ public class Factura {
     private int monto;
     private String mensaje;
 
-   
+    private Transaccion transaccion;
 
     public Factura(){
 
     }
 
-    public Factura(ObjectId id, String nombre_acreedor, String cuenta_acreedor, String fecha,
+    public Factura(String id, String nombre_acreedor, String cuenta_acreedor, String fecha,
             int monto, String mensaje) {
         this.id = id;
         this.nombre_acreedor = nombre_acreedor;
@@ -29,13 +30,14 @@ public class Factura {
         this.fecha = fecha;
         this.monto = monto;
         this.mensaje = mensaje;
+        transaccion = new Transaccion(id, 30, new Date());
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,11 +49,11 @@ public class Factura {
         this.nombre_acreedor = nombre_acreedor;
     }
 
-    public String getCorreo_acreedor() {
+    public String getCuenta_acreedor() {
         return cuenta_acreedor;
     }
 
-    public void setCorreo_acreedor(String cuenta_acreedor) {
+    public void setCuenta_acreedor(String cuenta_acreedor) {
         this.cuenta_acreedor = cuenta_acreedor;
     }
 
@@ -78,6 +80,15 @@ public class Factura {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+
+    public Transaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+    
     
     
 }
