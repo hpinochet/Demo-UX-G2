@@ -18,7 +18,7 @@ public class Cuenta {
     private int saldo;
 
     //listado de Ids de cada factura
-    private List<String> IDfacturas = new ArrayList<String>();
+    private List<Factura> IDfacturas = new ArrayList<Factura>();
     
     //private Transaccion transacciones;
 
@@ -98,13 +98,13 @@ public class Cuenta {
 
 
 
-    public List<String> getFacturas() {
+    public List<Factura> getFacturas() {
         return IDfacturas;
     }
 
 
 
-    public void setFacturas(List<String> IDfacturas) {
+    public void setFacturas(List<Factura> IDfacturas) {
         this.IDfacturas = IDfacturas;
     }
 

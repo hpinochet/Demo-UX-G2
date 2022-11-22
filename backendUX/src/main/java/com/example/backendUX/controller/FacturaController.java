@@ -50,14 +50,14 @@ public class FacturaController {
         Transaccion guardarComprobante = transaccionService.save(comprobante);
 
         // Se guarda la informacion del comprobante de transaccion en la factura
-        factura.setTransaccion(guardarComprobante.getId());
+        factura.setTransaccion(guardarComprobante);
 
         // Se guarda la nueva factura
         Factura obj = facturaService.save(factura);
 
         // Se guarda la factura en la cuenta seleccionada (guardando el id de la factura)
         Cuenta cuentaSeleccionada = cuentaService.get(id);
-        cuentaSeleccionada.getFacturas().add(obj.getId());
+        cuentaSeleccionada.getFacturas().add(obj);
         Cuenta facturaAgregada = cuentaService.save(cuentaSeleccionada);
 
         new ResponseEntity<Cuenta>(facturaAgregada, HttpStatus.OK);

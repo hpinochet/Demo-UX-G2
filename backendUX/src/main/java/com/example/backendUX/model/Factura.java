@@ -17,7 +17,7 @@ public class Factura {
     private String mensaje;
 
     //Id de la transaccion
-    private String IDtransaccion;
+    private Transaccion transaccion;
 
     public Factura(){
 
@@ -82,12 +82,12 @@ public class Factura {
         this.mensaje = mensaje;
     }
 
-    public String getTransaccion() {
-        return IDtransaccion;
+    public Transaccion getTransaccion() {
+        return transaccion;
     }
 
-    public void setTransaccion(String transaccion) {
-        this.IDtransaccion = transaccion;
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
     }    
     
     
