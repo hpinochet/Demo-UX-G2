@@ -64,13 +64,21 @@
     <span class="texto6">Nombre</span>
     <span class="texto7">Correo</span>
     <span class="texto8">Cuenta Corriente</span>
+    <div class="cuadradoCerrar" v-on:click="inicio">
+        <img
+        src="../playground_assets/logout.svg"
+        alt="imagen2022110220562846116177"
+        class="imagenCerrar"
+        />
+        <pre class="textoCerrar">Cerrar Sesión</pre>
+    </div>
     <!--Desde aqui ya no es la barra lateral-->
     <span class="texto9">Mis Cuentas</span>
     <span class="texto10">Aqui se encuentran las cuentas que posee esta cuenta</span>
     <span class="texto11">Selecciones una cuenta</span>
-    <div class="cuadrado7" >
-        <span class="texto12">Cuenta Corriente</span>
-    </div>
+    <select v-model="tipoCuenta" class="cuadrado7">
+        <option v-for="cuenta in cuentas" v-bind:key="cuenta.id"><span class="texto12">{{cuenta.id}}</span></option>
+    </select>
     <span class="texto13">Información de la cuenta</span>
     <span class="texto14">Numero de cuenta</span>
     <span class="texto15">1234567890123456</span>
@@ -87,7 +95,8 @@ export default {
             prueba:true,
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
-            titulo2:'Realizar\ntransferencias'
+            titulo2:'Realizar\ntransferencias',
+            cuentas:[{'id':'Cuenta Rut'},{'id':'Cuenta Corriente'},{'id':'Cuenta Ahorro'}]
         }
     },
     methods:{
@@ -102,6 +111,10 @@ export default {
         },
         construccion(){
             this.$router.push("/construccion")
+        },
+        
+        inicio(){
+            this.$router.push("/")
         }
     }
 }
@@ -515,5 +528,41 @@ export default {
   border-width: 1px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
+}
+.cuadradoCerrar{
+  top:1110px;
+  left: 10px;
+  width: 320px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.imagenCerrar {
+  top:0px;
+  left: -70px;
+  width: 30px;
+  height: 15px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.textoCerrar {
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: -40px;
+  left: 105px;
+  font-size: 17px;
 }
 </style>

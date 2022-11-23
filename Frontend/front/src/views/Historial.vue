@@ -64,6 +64,14 @@
     <span class="texto6">Nombre</span>
     <span class="texto7">Correo</span>
     <span class="texto8">Cuenta Corriente</span>
+    <div class="cuadrado7" v-on:click="inicio">
+        <img
+        src="../playground_assets/logout.svg"
+        alt="imagen2022110220562846116177"
+        class="imagen6"
+        />
+        <pre class="textoCerrar">Cerrar Sesión</pre>
+    </div>
     <!--Desde aqui ya no es la barra lateral-->
     <span class="texto9">Historial de transacciones</span>
     <span class="texto10">Aqui se encuentran las transacciones realizadas</span>
@@ -133,6 +141,9 @@ export default {
         },
         construccion(){
             this.$router.push("/construccion")
+        },
+        inicio(){
+            this.$router.push("/")
         }
     }
 }
@@ -202,6 +213,17 @@ export default {
   left: 20px;
   width: 350px;
   position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen6 {
+  top:0px;
+  left: -70px;
+  width: 30px;
+  height: 15px;
+  position: relative;
   box-sizing: border-box;
   object-fit: cover;
   border-width: 1px;
@@ -477,6 +499,19 @@ export default {
   left: 1150px;
   font-size: 17px;
 }
+.textoCerrar {
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: -40px;
+  left: 105px;
+  font-size: 17px;
+}
 .cuadrado1 {
   top:200px;
   left: 20px;
@@ -540,6 +575,18 @@ export default {
 .cuadrado6 {
   top:825px;
   left: 20px;
+  width: 320px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.cuadrado7{
+  top:1110px;
+  left: 10px;
   width: 320px;
   height: 100px;
   position: absolute;

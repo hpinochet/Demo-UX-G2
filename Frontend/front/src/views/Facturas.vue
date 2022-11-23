@@ -64,6 +64,14 @@
     <span class="texto6">Nombre</span>
     <span class="texto7">Correo</span>
     <span class="texto8">Cuenta Corriente</span>
+    <div class="cuadradoCerrar" v-on:click="inicio">
+        <img
+        src="../playground_assets/logout.svg"
+        alt="imagen2022110220562846116177"
+        class="imagenCerrar"
+        />
+        <pre class="textoCerrar">Cerrar Sesión</pre>
+    </div>
     <!--Desde aqui ya no es la barra lateral-->
     <span class="texto9">Pagos de facturas</span>
     <span class="texto10">Aqui se pueden realizar los pagos de facturas</span>
@@ -82,6 +90,38 @@
     <span class="texto16">Mensaje</span>
     <input class="cuadrado11" v-model="mensaje" placeholder="..."/>
     <button v-on:click="pagar" class="boton-pago"> <span class="texto-17">Iniciar Sesión</span>  </button>
+    <!--Popup pago exitoso-->
+    <Transition name="modal">
+    <div v-if="pagoExitoso" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">Pago factura realizada con exito</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="pago()"
+              ><p class="textoPopup">Aceptar</p></button>
+        </div>
+      </div>
+    </div>
+  </Transition>
+  <!--Popup pago fallido-->
+  <Transition name="modal">
+    <div v-if="pagoFallido" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">No tienes suficiente saldo para pagar esta factura</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="fallido()"
+              ><p class="textoPopup">Aceptar</p></button>
+        </div>
+      </div>
+    </div>
+  </Transition>
 </template>
 <script>
 import Datepicker from 'vuejs3-datepicker';
@@ -99,7 +139,9 @@ export default {
             nombre:'',
             fecha:new Date(),
             monto:'',
-            mensaje:''
+            mensaje:'',
+            pagoExitoso:false,
+            pagoFallido:false,
         }
     },
     methods:{
@@ -114,6 +156,15 @@ export default {
         },
         construccion(){
             this.$router.push("/construccion")
+        },
+        pago(){
+          this.pagoExitoso=!this.pagoExitoso
+        },
+        fallido(){
+          this.pagoFallido=!this.pagoFallido
+        },
+        inicio(){
+            this.$router.push("/")
         }
     }
 }
@@ -405,6 +456,12 @@ export default {
   font-size: 17px;
   color:#ffffff
 }
+.textoPopup{
+  color:#ffffff;
+  font-size: 17px;
+  top:-10px;
+  position:relative;
+}
 .cuadrado1 {
   top:200px;
   left: 20px;
@@ -571,5 +628,118 @@ export default {
   border-radius: 4px;
   background-color: rgb(4, 120, 87);
   cursor: pointer;
+}
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 0px;
+  left: 0px;
+  font-size: 40px;
+  color:#059669
+}
+
+.modal-default-button {
+  cursor: pointer;
+  top: 0px;
+  left: 0px;
+  width: 150px;
+  height: 40px;
+  position: relative;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgb(14, 65, 15);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  background-color: #047857;
+}
+.modal-enter-from {
+  opacity: 0;
+}
+
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.cuadradoCerrar{
+  top:1110px;
+  left: 10px;
+  width: 320px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.imagenCerrar {
+  top:0px;
+  left: -70px;
+  width: 30px;
+  height: 15px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.textoCerrar {
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: -40px;
+  left: 105px;
+  font-size: 17px;
 }
 </style>

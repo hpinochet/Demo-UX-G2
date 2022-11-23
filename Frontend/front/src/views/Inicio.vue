@@ -24,7 +24,7 @@
         <span>Contraseña</span>
       </div>
       <div class="texto5">
-        <span v-on:click="recuperar">¿Contraseña olvidada?</span>
+        <span v-on:click="construccion">¿Contraseña olvidada?</span>
       </div>
       <input v-model="rut" placeholder="ej: 16.235.245-5"  class="i-pad-pro111-email" />
       <input v-if="show" v-model="contrasena" placeholder="●●●●●●●●●●●●●●"  class="i-pad-pro111-email-2" type="password"/>
@@ -46,7 +46,7 @@
               v-on:click="verContrasena"
             />
       </div>
-      <button v-on:click="Ingreso" class="boton-ingreso"> <span class="texto-6">Iniciar Sesión</span>  </button>
+      <button v-on:click="cuenta" class="boton-ingreso"> <span class="texto-6">Iniciar Sesión</span>  </button>
       </div>
   </div>
 </template>
@@ -67,6 +67,12 @@ export default {
   methods:{
     verContrasena(){
       this.show=!this.show
+    },
+    cuenta(){
+      this.$router.push("/MisCuentas")
+    },
+    construccion(){
+      this.$router.push("/construccion")
     }
   }
 }

@@ -4,14 +4,10 @@ import inicio from '../views/Inicio.vue'
 import MisCuentas from '../views/MisCuentas.vue'
 import Historial from '../views/Historial.vue'
 import Facturas from '../views/Facturas.vue'
+import construccion from '../views/Construccion.vue'
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/inicio',
     name: 'inicio',
     component: inicio
   },
@@ -29,6 +25,11 @@ const routes = [
     path: '/Facturas',
     name: 'Facturas',
     component: Facturas
+  },
+  {
+    path: '/construccion',
+    name: 'construccion',
+    component: construccion
   },
   {
     path: '/about',
