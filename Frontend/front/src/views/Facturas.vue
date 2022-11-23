@@ -47,7 +47,7 @@
         />
         <pre class="texto4">Pagos de servicios</pre>
     </div>
-    <div class="cuadrado6" v-on:click="contruccion">
+    <div class="cuadrado6" v-on:click="construccion">
         <img
         src="../playground_assets/ajustes.svg"
         alt="imagen2022110220562846116177"
@@ -65,33 +65,45 @@
     <span class="texto7">Correo</span>
     <span class="texto8">Cuenta Corriente</span>
     <!--Desde aqui ya no es la barra lateral-->
-    <span class="texto9">Mis Cuentas</span>
-    <span class="texto10">Aqui se encuentran las cuentas que posee esta cuenta</span>
-    <span class="texto11">Selecciones una cuenta</span>
-    <div class="cuadrado7" >
-        <span class="texto12">Cuenta Corriente</span>
-    </div>
-    <span class="texto13">Información de la cuenta</span>
-    <span class="texto14">Numero de cuenta</span>
-    <span class="texto15">1234567890123456</span>
-    <span class="texto16">Tipo de cuenta</span>
-    <span class="texto17">Cuenta Corriente</span>
-    <span class="texto18">Balance</span>
-    <span class="texto19">380.563</span>
+    <span class="texto9">Pagos de facturas</span>
+    <span class="texto10">Aqui se pueden realizar los pagos de facturas</span>
+    <span class="texto11">Seleccione una factura</span>
+    <select v-model="factura" class="drop1">
+        <option v-for="transferencia in transferencias" v-bind:key="transferencia.id">{{transferencia.id}}</option>
+    </select>
+    <span class="texto12">Nombre Acreedor</span>
+    <input class="cuadrado7" v-model="nombre" placeholder="Ej: Ricardo Gonzalez"/>
+    <span class="texto13">Cuenta Acreedor</span>
+    <input class="cuadrado8" v-model="nombre" placeholder="Ej: 5356 5495 5923 3259"/>
+    <span class="texto14">Fecha de vencimiento</span>
+    <datepicker class="cuadrado9" v-model="fecha" :icon-width="650"></datepicker>
+    <span class="texto15">Monto</span>
+    <input class="cuadrado10" v-model="monto" placeholder="Ej: 20.000"/>
+    <span class="texto16">Mensaje</span>
+    <input class="cuadrado11" v-model="mensaje" placeholder="..."/>
+    <button v-on:click="pagar" class="boton-pago"> <span class="texto-17">Iniciar Sesión</span>  </button>
 </template>
 <script>
+import Datepicker from 'vuejs3-datepicker';
 export default {
     name:'MisCuentas',
+    components: {Datepicker},
     data(){
         return{
             prueba:true,
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
-            titulo2:'Realizar\ntransferencias'
+            titulo2:'Realizar\ntransferencias',
+            transferencias:[{'id':1,'numero':123,'nombre':'nombre1','fecha':'17/03/22','hora':'15:31','monto':'10.000'},{'id':2,'numero':1234,'nombre':'nombre2','fecha':'17/12/22','hora':'18:31','monto':'20.000'}],
+            factura:'',
+            nombre:'',
+            fecha:new Date(),
+            monto:'',
+            mensaje:''
         }
     },
     methods:{
-      cuenta(){
+        cuenta(){
         this.$router.push("/MisCuentas")
         },
         historial(){
@@ -320,22 +332,22 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 250px;
-  left: 645px;
-  font-size: 14px;
+  top: 150px;
+  left: 430px;
+  font-size: 17px;
 }
 .texto12 {
   display: flex;
-  position: relative;
+  position: absolute;
   align-self: stretch;
   align-items: flex-start;
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 5px;
-  left: 75px;
-  font-size: 20px;
+  top: 250px;
+  left: 430px;
+  font-size: 17px;
 }
 .texto13 {
   display: flex;
@@ -346,9 +358,9 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 475px;
-  left: 600px;
-  font-size: 50px;
+  top: 350px;
+  left: 430px;
+  font-size: 17px;
 }
 .texto14 {
   display: flex;
@@ -359,9 +371,9 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 550px;
-  font-size: 22px;
+  top: 450px;
+  left: 430px;
+  font-size: 17px;
 }
 .texto15 {
   display: flex;
@@ -371,10 +383,10 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
-  left: 550px;
-  font-size: 22px;
-  color:#667085
+  font-weight: bolder;
+  top: 550px;
+  left: 430px;
+  font-size: 17px;
 }
 .texto16 {
   display: flex;
@@ -385,48 +397,13 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 850px;
-  font-size: 22px;
-}
-.texto17 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
   top: 650px;
-  left: 850px;
-  font-size: 22px;
-  color:#667085
+  left: 430px;
+  font-size: 17px;
 }
-.texto18 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 575px;
-  left: 1150px;
-  font-size: 22px;
-}
-.texto19 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  top: 650px;
-  left: 1150px;
-  font-size: 22px;
-  color:#667085
+.texto-17 {
+  font-size: 17px;
+  color:#ffffff
 }
 .cuadrado1 {
   top:200px;
@@ -437,7 +414,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #E7EAEE;
+  background-color: #ffffff;
   cursor: pointer;
 }
 .cuadrado2 {
@@ -449,7 +426,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
 }
 .cuadrado3 {
@@ -473,7 +450,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
+  background-color: #E7EAEE;
   cursor: pointer;
 }
 .cuadrado5 {
@@ -501,19 +478,98 @@ export default {
   cursor: pointer;
 }
 .cuadrado7 {
-  top:275px;
-  left: 645px;
-  width: 300px;
+  top: 270px;
+  left: 430px;
+  width: 780px;
   height: 40px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
-  cursor: pointer;
-  border-style: solid;
   border-width: 1px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
+}
+.cuadrado8 {
+  top: 370px;
+  left: 430px;
+  width: 780px;
+  height: 40px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;  
+  border-width: 1px;
+  border-radius: 10px;
+}
+.cuadrado9 {
+  top: 470px;
+  left: 430px;
+  height: 40px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;  
+  border-width: 1px;
+  border-radius: 10px;
+}
+.cuadrado10 {
+  top: 570px;
+  left: 430px;
+  width: 780px;
+  height: 40px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;  
+  border-width: 1px;
+  border-radius: 10px;
+}
+.cuadrado11 {
+  top: 670px;
+  left: 430px;
+  width: 780px;
+  height: 40px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;  
+  border-width: 1px;
+  border-radius: 10px;
+}
+.drop1 {
+  position: absolute;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  cursor: pointer;
+  top: 170px;
+  left: 430px;
+  font-size: 17px;
+  width: 780px;
+  height: 40px;
+  border-width: 1px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+.boton-pago {
+  top: 770px;
+  left: 430px;
+  width: 780px;
+  height: 40px;
+  position: absolute;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgb(14, 65, 15);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  background-color: rgb(4, 120, 87);
+  cursor: pointer;
 }
 </style>

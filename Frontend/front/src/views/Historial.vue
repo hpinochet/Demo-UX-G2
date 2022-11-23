@@ -47,7 +47,7 @@
         />
         <pre class="texto4">Pagos de servicios</pre>
     </div>
-    <div class="cuadrado6" v-on:click="contruccion">
+    <div class="cuadrado6" v-on:click="construccion">
         <img
         src="../playground_assets/ajustes.svg"
         alt="imagen2022110220562846116177"
@@ -65,19 +65,49 @@
     <span class="texto7">Correo</span>
     <span class="texto8">Cuenta Corriente</span>
     <!--Desde aqui ya no es la barra lateral-->
-    <span class="texto9">Mis Cuentas</span>
-    <span class="texto10">Aqui se encuentran las cuentas que posee esta cuenta</span>
-    <span class="texto11">Selecciones una cuenta</span>
-    <div class="cuadrado7" >
-        <span class="texto12">Cuenta Corriente</span>
+    <span class="texto9">Historial de transacciones</span>
+    <span class="texto10">Aqui se encuentran las transacciones realizadas</span>
+    <span class="texto11">N° de transacción</span>
+    <span class="texto12">Nombre de depositante</span>
+    <span class="texto13">Fecha</span>
+    <span class="texto14">Hora</span>
+    <span class="texto15">Monto</span>
+    <div class="texto16">
+      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
+        <v-row>
+            <input type="checkbox" id="transferencia.id" value="transferencia.numero" v-model="checkedNames">
+            <label for="transferencia.id">{{ transferencia.numero }}</label>
+        </v-row>
+      </div>
     </div>
-    <span class="texto13">Información de la cuenta</span>
-    <span class="texto14">Numero de cuenta</span>
-    <span class="texto15">1234567890123456</span>
-    <span class="texto16">Tipo de cuenta</span>
-    <span class="texto17">Cuenta Corriente</span>
-    <span class="texto18">Balance</span>
-    <span class="texto19">380.563</span>
+    <div class="texto17">
+      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
+        <v-row>
+          <span  >{{ transferencia.nombre }}</span>
+        </v-row>
+      </div>
+    </div>
+    <div class="texto18">
+      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
+        <v-row>
+          <span  >{{ transferencia.fecha }}</span>
+        </v-row>
+      </div>
+    </div>
+    <div class="texto19">
+      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
+        <v-row>
+          <span  >{{ transferencia.hora }}</span>
+        </v-row>
+      </div>
+    </div>
+    <div class="texto20">
+      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
+        <v-row>
+          <span  >{{ transferencia.monto }}</span>
+        </v-row>
+      </div>
+    </div>
 </template>
 <script>
 export default {
@@ -87,11 +117,12 @@ export default {
             prueba:true,
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
-            titulo2:'Realizar\ntransferencias'
+            titulo2:'Realizar\ntransferencias',
+            transferencias:[{'id':1,'numero':123,'nombre':'nombre1','fecha':'17/03/22','hora':'15:31','monto':'10.000'},{'id':2,'numero':1234,'nombre':'nombre2','fecha':'17/12/22','hora':'18:31','monto':'20.000'}]
         }
     },
     methods:{
-      cuenta(){
+        cuenta(){
         this.$router.push("/MisCuentas")
         },
         historial(){
@@ -320,22 +351,24 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 250px;
-  left: 645px;
-  font-size: 14px;
+  top: 150px;
+  left: 430px;
+  font-size: 17px;
+  color:#64748B
 }
 .texto12 {
   display: flex;
-  position: relative;
+  position: absolute;
   align-self: stretch;
   align-items: flex-start;
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 5px;
-  left: 75px;
-  font-size: 20px;
+  top: 150px;
+  left: 650px;
+  font-size: 17px;
+  color:#64748B
 }
 .texto13 {
   display: flex;
@@ -346,9 +379,10 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 475px;
-  left: 600px;
-  font-size: 50px;
+  top: 150px;
+  left: 920px;
+  font-size: 17px;
+  color:#64748B
 }
 .texto14 {
   display: flex;
@@ -359,25 +393,13 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 550px;
-  font-size: 22px;
+  top: 150px;
+  left: 1050px;
+  font-size: 17px;
+  color:#64748B
 }
-.texto15 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  top: 650px;
-  left: 550px;
-  font-size: 22px;
-  color:#667085
-}
-.texto16 {
-  display: flex;
+.texto15{
+    display: flex;
   position: absolute;
   align-self: stretch;
   align-items: flex-start;
@@ -385,9 +407,23 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 850px;
-  font-size: 22px;
+  top: 150px;
+  left: 1150px;
+  font-size: 17px;
+  color:#64748B
+}
+.texto16{
+    display: flex;
+    position: absolute;
+    align-self: stretch;
+    align-items: flex-start;
+    border-color: transparent;
+    margin-bottom: 24px;
+    flex-direction: column;
+    font-weight: bolder;
+    top: 200px;
+    left: 430px;
+    font-size: 17px;
 }
 .texto17 {
   display: flex;
@@ -397,10 +433,10 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
-  left: 850px;
-  font-size: 22px;
-  color:#667085
+  font-weight: bolder;
+  top: 200px;
+  left: 650px;
+  font-size: 17px;
 }
 .texto18 {
   display: flex;
@@ -411,9 +447,9 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 1150px;
-  font-size: 22px;
+  top: 200px;
+  left: 920px;
+  font-size: 17px;
 }
 .texto19 {
   display: flex;
@@ -423,10 +459,23 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
+  font-weight: bolder;
+  top: 200px;
+  left: 1050px;
+  font-size: 17px;
+}
+.texto20{
+    display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 200px;
   left: 1150px;
-  font-size: 22px;
-  color:#667085
+  font-size: 17px;
 }
 .cuadrado1 {
   top:200px;
@@ -437,7 +486,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #E7EAEE;
+  background-color: #ffffff;
   cursor: pointer;
 }
 .cuadrado2 {
@@ -449,7 +498,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
+  background-color: #E7EAEE;
   cursor: pointer;
 }
 .cuadrado3 {
@@ -499,21 +548,5 @@ export default {
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
-}
-.cuadrado7 {
-  top:275px;
-  left: 645px;
-  width: 300px;
-  height: 40px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-  border-style: solid;
-  border-width: 1px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
 }
 </style>
