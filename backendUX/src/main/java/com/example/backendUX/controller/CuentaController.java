@@ -56,6 +56,39 @@ public class CuentaController {
         return Transacciones_x_cuenta;
     }
 
+    // Iniciar sesion
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login(@RequestBody Cuenta cuenta){
+        List<Cuenta> cuentas = cuentaService.getAll();
+
+        String username = cuenta.getUsername();
+        String password = cuenta.getPassword();
+
+        int userFlag = 0;
+        int passwordFlag = 0;
+
+        for (Cuenta f : cuentas) {
+            if(f.getUsername().equals(username)){
+                userFlag = 1;
+                if(f.getPassword().equals(password)){
+                    passwordFlag = 1;
+                }
+            }
+        }
+
+        System.out.println(userFlag);
+        System.out.println(passwordFlag);
+
+        if(userFlag == 0){
+            return new ResponseEntity<String>("No existe una cuenta con este RUT", HttpStatus.OK);
+        }
+        if(passwordFlag == 0){
+            return new ResponseEntity<String>("La contraseña de la cuenta es incorrecta", HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("OK", HttpStatus.OK);
+
+    }
+
     //Obtener todas las transacciones por cada cuenta
 
 }
