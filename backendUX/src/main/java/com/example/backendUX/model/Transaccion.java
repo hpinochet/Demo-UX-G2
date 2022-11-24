@@ -12,22 +12,15 @@ public class Transaccion {
     @Id
     private String id;
     private int numero;
+    private String username;
     private Date fecha;
-
-    private String hora;
-
     private int monto;
 
-    public Transaccion(String id, int numero, Date fecha, String hora, int monto) {
-        this.id = id;
+    public Transaccion(int numero, String username, Date fecha, int monto) {
         this.numero = numero;
+        this.username = username;
         this.fecha = fecha;
-        this.hora = hora;
         this.monto = monto;
-    }
-
-    public Transaccion() {
-
     }
 
     public String getId() {
@@ -46,20 +39,20 @@ public class Transaccion {
         this.numero = numero;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Date getFecha() {
         return fecha;
     }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
     }
 
     public int getMonto() {

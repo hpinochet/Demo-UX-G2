@@ -17,9 +17,10 @@ public class Factura {
     private int monto;
     private String mensaje;
     private Transaccion transaccion;
+    private int pagado = 0;
 
     public Factura(String id, String factura, String nombre_acreedor, String cuenta_acreedor, String fecha,
-                   int monto, String mensaje, Transaccion transaccion) {
+                   int monto, String mensaje, Transaccion transaccion, int pagado) {
         this.id = id;
         this.factura = factura;
         this.nombre_acreedor = nombre_acreedor;
@@ -28,10 +29,19 @@ public class Factura {
         this.monto = monto;
         this.mensaje = mensaje;
         this.transaccion = transaccion;
+        this.pagado = pagado;
     }
 
     public String getId() {
         return id;
+    }
+
+    public int getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(int pagado) {
+        this.pagado = pagado;
     }
 
     public void setId(String id) {

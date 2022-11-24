@@ -143,8 +143,24 @@ export default {
             mensaje:'',
             pagoExitoso:false,
             pagoFallido:false,
+
+            facturas: null
         }
     },
+    async mounted(){
+      
+      const axiosInstance = axios.create({
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
+      });
+
+      let id = "637fef565918d9543961c46e"
+      let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/' + id);
+      this.facturas = response.data;
+      console.log(this.transferencias)
+    },
+
     methods:{
       cuenta(){
         this.$router.push("/MisCuentas/"+this.$route.params.id)

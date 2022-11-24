@@ -21,18 +21,20 @@ public class Cuenta {
     private int saldo;
 
     //listado de Ids de cada factura
-    private List<Factura> facturas = new ArrayList<Factura>();
+    private List<Factura> facturas;
 
-    //private List<Transaccion> transacciones = new ArrayList<Transaccion>();
+    private List<Transaccion> transacciones;
 
     public Cuenta(String id, String username, String password, int numero_cuenta, String tipo_cuenta,
-                  int saldo) {
+                  int saldo, List<Factura> facturas, List<Transaccion> transacciones) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.numero_cuenta = numero_cuenta;
         this.tipo_cuenta = tipo_cuenta;
         this.saldo = saldo;
+        this.facturas = facturas;
+        this.transacciones = transacciones;
     }
 
     public String getId() {
@@ -91,5 +93,11 @@ public class Cuenta {
         this.facturas = facturas;
     }
 
+    public List<Transaccion> getTransacciones() {
+        return transacciones;
+    }
 
+    public void setTransacciones(List<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
 }

@@ -1,18 +1,21 @@
 package com.example.backendUX.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.backendUX.model.Cuenta;
+import com.example.backendUX.model.Factura;
+import com.example.backendUX.service.CuentaService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backendUX.model.Transaccion;
 import com.example.backendUX.service.TransaccionService;
+import com.example.backendUX.service.CuentaService;
 
 @RestController
 @CrossOrigin
@@ -30,5 +33,6 @@ public class TransaccionController {
         List<Transaccion> transacciones = transaccionService.getAll();
         return transacciones;
     }
+
 
 }

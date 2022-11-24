@@ -48,6 +48,8 @@
       </div>
       <button v-on:click="cuenta" class="boton-ingreso"> <span class="texto-6">Iniciar Sesión</span>  </button>
       </div>
+      <span class="texto7" v-if="show2">Ingrese un rut/Ingrese correctamente el rut.</span>
+      <span class="texto8" v-if="show3">Ingrese una contraseña/Contraseña incorrecta.</span>
   </div>
 </template>
 
@@ -63,7 +65,9 @@ export default {
     contrasena:"",
     rut:"",
     respuesta: null,
-    show:true
+    show:true,
+    show2:true,
+    show3:false
     }
   },
   methods:{

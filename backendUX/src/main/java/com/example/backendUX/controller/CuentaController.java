@@ -91,6 +91,10 @@ public class CuentaController {
 
     }
 
-    //Obtener todas las transacciones por cada cuenta
+    @GetMapping(value="/allTr/{id}")
+    public List<Transaccion> getTransations(@PathVariable String id){
+        Cuenta cuenta = cuentaService.get(id);
+        return cuenta.getTransacciones();
+    }
 
 }

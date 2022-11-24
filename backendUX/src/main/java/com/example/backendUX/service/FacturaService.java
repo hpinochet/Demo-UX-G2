@@ -1,7 +1,9 @@
 package com.example.backendUX.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.example.backendUX.model.Cuenta;
 import org.springframework.stereotype.Service;
 
 import com.example.backendUX.model.Factura;
@@ -21,9 +23,20 @@ public class FacturaService {
         return list;
     }
 
+    public Factura get(String id){
+        Optional<Factura> obj = facturaRepository.findById(id);
+        if(obj.isPresent()){
+            return obj.get();
+        }
+        return null;
+    }
+
     // Crear factura
     public Factura save(Factura entity){
         Factura nuevFactura = facturaRepository.save(entity);
         return nuevFactura;
     }
+
+    // Pagar factura
+
 }
