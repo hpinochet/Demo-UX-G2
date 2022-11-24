@@ -7,31 +7,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "factura")
 public class Factura {
+
     @Id
     private String id;
-    
+    private String factura;
     private String nombre_acreedor;
     private String cuenta_acreedor;
     private String fecha;
     private int monto;
     private String mensaje;
-
-    //Id de la transaccion
     private Transaccion transaccion;
 
-    public Factura(){
-
-    }
-
-    public Factura(String id, String nombre_acreedor, String cuenta_acreedor, String fecha,
-            int monto, String mensaje) {
+    public Factura(String id, String factura, String nombre_acreedor, String cuenta_acreedor, String fecha,
+                   int monto, String mensaje, Transaccion transaccion) {
         this.id = id;
+        this.factura = factura;
         this.nombre_acreedor = nombre_acreedor;
         this.cuenta_acreedor = cuenta_acreedor;
         this.fecha = fecha;
         this.monto = monto;
         this.mensaje = mensaje;
-        //transaccion = new Transaccion(id, 30, new Date());
+        this.transaccion = transaccion;
     }
 
     public String getId() {
@@ -40,6 +36,14 @@ public class Factura {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getFactura() {
+        return factura;
+    }
+
+    public void setFactura(String factura) {
+        this.factura = factura;
     }
 
     public String getNombre_acreedor() {
@@ -88,7 +92,5 @@ public class Factura {
 
     public void setTransaccion(Transaccion transaccion) {
         this.transaccion = transaccion;
-    }    
-    
-    
+    }
 }
