@@ -66,12 +66,14 @@ public class CuentaController {
 
         int userFlag = 0;
         int passwordFlag = 0;
+        String Id = "";
 
         for (Cuenta f : cuentas) {
             if(f.getUsername().equals(username)){
                 userFlag = 1;
                 if(f.getPassword().equals(password)){
                     passwordFlag = 1;
+                    Id = f.getId();
                 }
             }
         }
@@ -85,7 +87,7 @@ public class CuentaController {
         if(passwordFlag == 0){
             return new ResponseEntity<String>("La contraseña de la cuenta es incorrecta", HttpStatus.OK);
         }
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
+        return new ResponseEntity<String>(Id, HttpStatus.OK);
 
     }
 
