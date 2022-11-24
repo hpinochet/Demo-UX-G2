@@ -81,11 +81,11 @@
     </select>
     <span class="texto13">Información de la cuenta</span>
     <span class="texto14">Numero de cuenta</span>
-    <span class="texto15">1234567890123456</span>
+    <span class="texto15">{{usuario.numero_cuenta}}</span>
     <span class="texto16">Tipo de cuenta</span>
-    <span class="texto17">Cuenta Corriente</span>
+    <span class="texto17">{{usuario.tipo_cuenta}}</span>
     <span class="texto18">Balance</span>
-    <span class="texto19">380.563</span>
+    <span class="texto19">{{'$'+usuario.saldo}}</span>
 </template>
 <script>
 import axios from 'axios'
@@ -97,7 +97,8 @@ export default {
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
             titulo2:'Realizar\ntransferencias',
-            cuentas:[{'id':'Cuenta Rut'},{'id':'Cuenta Corriente'},{'id':'Cuenta Ahorro'}]
+            cuentas:[{'id':'Cuenta Rut'},{'id':'Cuenta Corriente'},{'id':'Cuenta Ahorro'}],
+            usuario:[]
         }
     },
     methods:{
@@ -116,8 +117,22 @@ export default {
         
         inicio(){
             this.$router.push("/")
+        },
+        async getUsuario(){
+          const axiosInstance = axios.create({
+              headers: {
+                  "Access-Control-Allow-Origin": "*"
+              }
+          });
+          
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/637eb5ed00f43f3f44c9eba3');
+          this.usuario = response.data;
+          console.log(this.usuario)
         }
-    }
+    },
+    created: async function(){
+      this.getUsuario()
+    },
 }
 </script>
 <style scoped>

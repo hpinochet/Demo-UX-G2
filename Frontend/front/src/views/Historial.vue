@@ -127,7 +127,7 @@ export default {
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
             titulo2:'Realizar\ntransferencias',
-            transferencias:[{'id':1,'numero':123,'nombre':'nombre1','fecha':'17/03/22','hora':'15:31','monto':'10.000'},{'id':2,'numero':1234,'nombre':'nombre2','fecha':'17/12/22','hora':'18:31','monto':'20.000'}]
+            transferencias:[]
         }
     },
     methods:{
@@ -145,8 +145,22 @@ export default {
         },
         inicio(){
             this.$router.push("/")
+        },
+        async getTransacciones(){
+          const axiosInstance = axios.create({
+              headers: {
+                  "Access-Control-Allow-Origin": "*"
+              }
+          });
+
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/637eb5ed00f43f3f44c9eba3');
+          this.transferencias = response.data;
+          console.log(this.transferencias)
         }
-    }
+    },
+    created: async function(){
+      this.getTransacciones()
+    },
 }
 </script>
 <style scoped>
