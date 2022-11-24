@@ -98,14 +98,14 @@
     <div class="texto18">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ transferencia.fecha }}</span>
+          <span  >{{ fecha(transferencia.fecha) }} </span>
         </v-row>
       </div>
     </div>
     <div class="texto19">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ transferencia.hora }}</span>
+          <span  >{{ horas(transferencia.fecha) }}</span>
         </v-row>
       </div>
     </div>
@@ -126,8 +126,8 @@ export default {
             prueba:true,
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
-            titulo2:'Realizar\ntransferencias',
-            transferencias:[]
+            titulo2:'Realizar\ntransferencias',    
+            transferencias:[{'fecha':new Date()}],
         }
     },
     methods:{
@@ -156,6 +156,13 @@ export default {
           let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/637eb5ed00f43f3f44c9eba3');
           this.transferencias = response.data;
           console.log(this.transferencias)
+        },
+        fecha(date){
+          return (date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear())
+
+        },
+        horas(date){
+          return(date.getHours()+':'+date.getMinutes())
         }
     },
     created: async function(){
