@@ -10,6 +10,7 @@
     <span class="texto4"> para volver </span>
 </template>
 <script>
+import axios from 'axios'
 export default{
     methods:{
         retroceder(){

@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'IPadPro111',
   metaInfo: {
@@ -69,7 +70,8 @@ export default {
       this.show=!this.show
     },
     cuenta(){
-      this.$router.push("/MisCuentas")
+      let id="1"
+      this.$router.push("/MisCuentas/"+id)
     },
     construccion(){
       this.$router.push("/construccion")

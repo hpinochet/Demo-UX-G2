@@ -124,6 +124,7 @@
   </Transition>
 </template>
 <script>
+import axios from 'axios'
 import Datepicker from 'vuejs3-datepicker';
 export default {
     name:'MisCuentas',
@@ -145,14 +146,14 @@ export default {
         }
     },
     methods:{
-        cuenta(){
-        this.$router.push("/MisCuentas")
+      cuenta(){
+        this.$router.push("/MisCuentas/"+this.$route.params.id)
         },
-        historial(){
-        this.$router.push("/Historial")
+      historial(){
+        this.$router.push("/Historial/"+this.$route.params.id)
         },
-        facturas(){
-        this.$router.push("/Facturas")
+      facturas(){
+        this.$router.push("/Facturas/"+this.$route.params.id)
         },
         construccion(){
             this.$router.push("/construccion")

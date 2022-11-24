@@ -88,6 +88,7 @@
     <span class="texto19">380.563</span>
 </template>
 <script>
+import axios from 'axios'
 export default {
     name:'MisCuentas',
     data(){
@@ -101,16 +102,16 @@ export default {
     },
     methods:{
       cuenta(){
-        this.$router.push("/MisCuentas")
+        this.$router.push("/MisCuentas/"+this.$route.params.id)
         },
-        historial(){
-        this.$router.push("/Historial")
+      historial(){
+        this.$router.push("/Historial/"+this.$route.params.id)
         },
-        facturas(){
-        this.$router.push("/Facturas")
+      facturas(){
+        this.$router.push("/Facturas/"+this.$route.params.id)
         },
-        construccion(){
-            this.$router.push("/construccion")
+      construccion(){
+          this.$router.push("/construccion")
         },
         
         inicio(){

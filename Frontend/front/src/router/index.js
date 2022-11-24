@@ -12,17 +12,17 @@ const routes = [
     component: inicio
   },
   {
-    path: '/misCuentas',
+    path: '/misCuentas/:id',
     name: 'misCuentas',
     component: MisCuentas
   },
   {
-    path: '/Historial',
+    path: '/Historial/:id',
     name: 'Historial',
     component: Historial
   },
   {
-    path: '/Facturas',
+    path: '/Facturas/:id',
     name: 'Facturas',
     component: Facturas
   },
