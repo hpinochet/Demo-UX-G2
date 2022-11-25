@@ -61,9 +61,8 @@
         class="imagen5"
         />
     <span class="texto5">Perfil</span>
-    <span class="texto6">Nombre</span>
-    <span class="texto7">Correo</span>
-    <span class="texto8">Cuenta Corriente</span>
+    <span class="texto6">{{usuario.username}}</span>
+    <span class="texto7">{{usuario.tipo_cuenta}}</span>
     <div class="cuadradoCerrar" v-on:click="inicio">
         <img
         src="../playground_assets/logout.svg"
@@ -125,7 +124,7 @@ export default {
               }
           });
           
-          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/637eb5ed00f43f3f44c9eba3');
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
           this.usuario = response.data;
           console.log(this.usuario)
         }
@@ -148,7 +147,6 @@ export default {
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
-  border-width: 1px;
   border-radius: 4px;
 }
 .imagen1 {
@@ -308,7 +306,7 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 1075px;
+  top: 1050px;
   left: 50px;
   font-size: 18px;
 }

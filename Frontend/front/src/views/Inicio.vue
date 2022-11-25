@@ -66,7 +66,7 @@ export default {
     rut:"",
     respuesta: null,
     show:true,
-    show2:true,
+    show2:false,
     show3:false
     }
   },
@@ -94,7 +94,16 @@ export default {
       await axiosInstance.post('http://localhost:8888/cuenta/login', payload)
       .then(response => {
         this.respuesta = response.data;
-        console.log(this.respuesta)
+        console.log(this.respuesta);
+        if(this.respuesta=="No existe una cuenta con este RUT"){
+          this.show2=true;
+        }
+        else if (this.respuesta=="La contraseña de la cuenta es incorrecta"){
+          this.show3=true
+        }
+        else{
+          this.$router.push("/MisCuentas/"+this.respuesta)
+        }
       })
       
       
@@ -218,6 +227,22 @@ export default {
 .texto-6 {
   font-size: 17px;
   color:#ffffff
+}
+.texto7 {
+  font-size: 17px;
+  color: red;
+  top: 390px;
+  left: 550px;
+  font-size: 17px;
+  position:absolute;
+}
+.texto8 {
+  font-size: 17px;
+  color: red;
+  top: 490px;
+  left: 550px;
+  font-size: 17px;
+  position:absolute;
 }
 .i-pad-pro111-email {
   display: flex;

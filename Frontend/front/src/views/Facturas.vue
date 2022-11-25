@@ -143,7 +143,7 @@ export default {
             mensaje:'',
             pagoExitoso:false,
             pagoFallido:false,
-
+            usuario:[],
             facturas: null
         }
     },
@@ -159,6 +159,7 @@ export default {
       let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/' + id);
       this.facturas = response.data;
       console.log(this.transferencias)
+      this.getUsuario()
     },
 
     methods:{
@@ -182,6 +183,17 @@ export default {
         },
         inicio(){
             this.$router.push("/")
+        },
+        async getUsuario(){
+          const axiosInstance = axios.create({
+              headers: {
+                  "Access-Control-Allow-Origin": "*"
+              }
+          });
+          
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
+          this.usuario = response.data;
+          console.log(this.usuario)
         }
     }
 }

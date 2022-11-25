@@ -34,5 +34,4 @@ public class TransaccionController {
         return transacciones;
     }
 
-
 }

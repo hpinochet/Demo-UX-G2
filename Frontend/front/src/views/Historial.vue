@@ -61,9 +61,8 @@
         class="imagen5"
         />
     <span class="texto5">Perfil</span>
-    <span class="texto6">Nombre</span>
-    <span class="texto7">Correo</span>
-    <span class="texto8">Cuenta Corriente</span>
+    <span class="texto6">{{usuario.username}}</span>
+    <span class="texto7">{{usuario.tipo_cuenta}}</span>
     <div class="cuadrado7" v-on:click="inicio">
         <img
         src="../playground_assets/logout.svg"
@@ -83,7 +82,6 @@
     <div class="texto16">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-            <input type="checkbox" id="transferencia.id" value="transferencia.numero" v-model="checkedNames">
             <label for="transferencia.id">{{ transferencia.numero }}</label>
         </v-row>
       </div>
@@ -91,7 +89,7 @@
     <div class="texto17">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ transferencia.nombre }}</span>
+          <span  >{{ transferencia.username }}</span>
         </v-row>
       </div>
     </div>
@@ -128,6 +126,7 @@ export default {
             titulo:'Historial de\ntransacciones',
             titulo2:'Realizar\ntransferencias',    
             transferencias:[{'fecha':new Date()}],
+            usuario:[],
         }
     },
     methods:{
@@ -153,20 +152,31 @@ export default {
               }
           });
 
-          let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/637eb5ed00f43f3f44c9eba3');
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/allTr/'+this.$route.params.id);
           this.transferencias = response.data;
           console.log(this.transferencias)
         },
         fecha(date){
           return (date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear())
-
         },
         horas(date){
           return(date.getHours()+':'+date.getMinutes())
+        },
+        async getUsuario(){
+          const axiosInstance = axios.create({
+              headers: {
+                  "Access-Control-Allow-Origin": "*"
+              }
+          });
+          
+          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
+          this.usuario = response.data;
+          console.log(this.usuario)
         }
     },
     created: async function(){
       this.getTransacciones()
+      this.getUsuario()
     },
 }
 </script>

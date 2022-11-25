@@ -92,9 +92,27 @@ public class CuentaController {
     }
 
     @GetMapping(value="/allTr/{id}")
-    public List<Transaccion> getTransations(@PathVariable String id){
+    public ResponseEntity<List<Transaccion>> getTransations(@PathVariable String id){
         Cuenta cuenta = cuentaService.get(id);
-        return cuenta.getTransacciones();
+        List<Transaccion> transaccionsCuenta = cuenta.getTransacciones();
+        return new ResponseEntity<List<Transaccion>>(transaccionsCuenta, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/noPagadas/{id}")
+    public List<Factura> getAllFacturaNoPagadas(@PathVariable String id){
+
+        Cuenta cuenta = cuentaService.get(id);
+        List<Factura> Facturas = cuenta.getFacturas();
+        List<Factura> FacturasNoPagadas = new ArrayList<Factura>();
+
+        for (Factura f : Facturas) {
+            if(f.getPagado() == 0){
+                FacturasNoPagadas.add(f);
+            }
+        }
+
+        return FacturasNoPagadas;
+
     }
 
 }
