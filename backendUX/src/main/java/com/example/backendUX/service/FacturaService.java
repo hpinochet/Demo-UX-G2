@@ -3,7 +3,7 @@ package com.example.backendUX.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.backendUX.model.Cuenta;
+//import com.example.backendUX.model.Cuenta;
 import org.springframework.stereotype.Service;
 
 import com.example.backendUX.model.Factura;
@@ -23,6 +23,7 @@ public class FacturaService {
         return list;
     }
 
+    // Obtener factura
     public Factura get(String id){
         Optional<Factura> obj = facturaRepository.findById(id);
         if(obj.isPresent()){

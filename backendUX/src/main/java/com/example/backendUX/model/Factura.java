@@ -103,4 +103,5 @@ public class Factura {
     public void setTransaccion(Transaccion transaccion) {
         this.transaccion = transaccion;
     }
+    
 }

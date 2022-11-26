@@ -55,6 +55,7 @@ public class FacturaController {
 
     }
 
+    //Pagar una nueva factura, 
     @PostMapping(value = "/pagarFactura")
     public ResponseEntity<String> pagarFactura(@RequestBody PagoFactura pagoFactura){
 
@@ -115,6 +116,17 @@ public class FacturaController {
 
         return new ResponseEntity<String>("Pagado", HttpStatus.OK);
 
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    // Obtener solamente una factura, esto con el fin de al seleccionar una factura, este muestre la 
+    // informacion que contiene dicha factura para proceder con el pago.
+    //Seleccionar una cuenta (mediante el id de la factura)
+    @GetMapping(value="/findFact/{id}")
+    public Factura find(@PathVariable String id){
+        return facturaService.get(id);
     }
 
 }

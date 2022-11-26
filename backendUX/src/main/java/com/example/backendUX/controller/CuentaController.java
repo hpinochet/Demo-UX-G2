@@ -42,6 +42,7 @@ public class CuentaController {
         return new ResponseEntity<Cuenta>(obj, HttpStatus.OK);
     }
 
+    /* 
     //Obtener todos los comprobante de pago de cada factura en la cuenta seleccionada
     @GetMapping(value="/allFC/{id}")
     public List<Transaccion> getAllFact(@PathVariable String id){
@@ -55,6 +56,7 @@ public class CuentaController {
 
         return Transacciones_x_cuenta;
     }
+    */
 
     // Iniciar sesion
     @PostMapping(value = "/login")
