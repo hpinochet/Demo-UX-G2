@@ -89,7 +89,7 @@
     <div class="texto17">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >Pago de factura</span>
+          <span  >Pago de factura-{{transferencia.username}}</span>
         </v-row>
       </div>
     </div>

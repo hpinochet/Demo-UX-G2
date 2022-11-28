@@ -96,7 +96,7 @@ public class FacturaController {
         // Se crea transaccion
 
         int numero = (10000000 + (new Random().nextInt(99999999 - 10000000)));
-        String username = cuenta.getUsername();
+        String username = factura.getFactura();
 
         Date date = new Date();
 

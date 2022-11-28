@@ -127,7 +127,7 @@
               <button
                 class="modal-default-button"
                 @click="seguro=false"
-              ><p class="textoPopup">no</p></button>
+              ><p class="textoPopup">No</p></button>
         </div>
       </div>
     </div>
