@@ -1,9 +1,6 @@
 package com.example.backendUX.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import com.example.backendUX.model.PagoFactura;
 import org.springframework.http.HttpStatus;
@@ -100,10 +97,30 @@ public class FacturaController {
 
         int numero = (10000000 + (new Random().nextInt(99999999 - 10000000)));
         String username = cuenta.getUsername();
+
         Date date = new Date();
+
+        String hora = String.valueOf(date.getHours());
+        String minuto = String.valueOf(date.getMinutes());
+
+        if(minuto.length() == 1){
+            minuto = "0" + minuto;
+        }
+
+        String Hora = hora + ":" + minuto;
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = new GregorianCalendar();
+
+        String dia = Integer.toString(c1.get(Calendar.DATE));
+        String mes = Integer.toString(c1.get(Calendar.MONTH) + 1);
+        String annio = Integer.toString(c1.get(Calendar.YEAR));
+
+        String Fecha = dia + "/" + mes + "/" + annio;
+
         int valorFactura = Valor;
 
-        Transaccion comprobante = new Transaccion(numero,username,date,valorFactura);
+        Transaccion comprobante = new Transaccion(numero,username,Fecha,Hora,valorFactura);
         transaccionService.save(comprobante);
 
         // Se edita lista transaccion en usuario

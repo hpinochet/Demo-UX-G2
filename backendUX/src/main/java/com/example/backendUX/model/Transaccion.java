@@ -1,5 +1,6 @@
 package com.example.backendUX.model;
 
+import java.security.SecureRandom;
 import java.util.Date;
 
 //import org.bson.types.ObjectId;
@@ -13,13 +14,15 @@ public class Transaccion {
     private String id;
     private int numero;
     private String username;
-    private Date fecha;
+    private String fecha;
+    private String hora;
     private int monto;
 
-    public Transaccion(int numero, String username, Date fecha, int monto) {
+    public Transaccion(int numero, String username, String fecha, String hora, int monto) {
         this.numero = numero;
         this.username = username;
         this.fecha = fecha;
+        this.hora = hora;
         this.monto = monto;
     }
 
@@ -47,12 +50,20 @@ public class Transaccion {
         this.username = username;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public int getMonto() {

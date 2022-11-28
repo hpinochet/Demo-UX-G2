@@ -1,7 +1,6 @@
 package com.example.backendUX.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -101,7 +100,7 @@ public class CuentaController {
     }
 
     @GetMapping(value="/noPagadas/{id}")
-    public List<Factura> getAllFacturaNoPagadas(@PathVariable String id){
+    public ResponseEntity<List<Factura>> getAllFacturaNoPagadas(@PathVariable String id){
 
         Cuenta cuenta = cuentaService.get(id);
         List<Factura> Facturas = cuenta.getFacturas();
@@ -113,7 +112,7 @@ public class CuentaController {
             }
         }
 
-        return FacturasNoPagadas;
+        return new ResponseEntity<List<Factura>>(FacturasNoPagadas, HttpStatus.OK);
 
     }
 

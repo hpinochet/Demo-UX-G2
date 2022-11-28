@@ -89,21 +89,21 @@
     <div class="texto17">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ transferencia.username }}</span>
+          <span  >Pago de factura</span>
         </v-row>
       </div>
     </div>
     <div class="texto18">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ fecha(transferencia.fecha) }} </span>
+          <span  >{{ transferencia.fecha }} </span>
         </v-row>
       </div>
     </div>
     <div class="texto19">
       <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
         <v-row>
-          <span  >{{ horas(transferencia.fecha) }}</span>
+          <span  >{{ transferencia.hora }}</span>
         </v-row>
       </div>
     </div>
@@ -155,12 +155,6 @@ export default {
           let response = await axiosInstance.get('http://localhost:8888/cuenta/allTr/'+this.$route.params.id);
           this.transferencias = response.data;
           console.log(this.transferencias)
-        },
-        fecha(date){
-          return (date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear())
-        },
-        horas(date){
-          return(date.getHours()+':'+date.getMinutes())
         },
         async getUsuario(){
           const axiosInstance = axios.create({

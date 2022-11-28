@@ -26,7 +26,7 @@
       <div class="texto5">
         <span v-on:click="construccion">¿Contraseña olvidada?</span>
       </div>
-      <input v-model="rut" type="text" placeholder="ej: 16.235.245-5"  class="i-pad-pro111-email" />
+      <input v-model="rut" type="text" placeholder="Ej: 16.235.245-5"  class="i-pad-pro111-email" />
       <input v-if="show" v-model="contrasena" placeholder="●●●●●●●●●●●●●●"  class="i-pad-pro111-email-2" type="password"/>
       <input v-else v-model="contrasena" placeholder="●●●●●●●●●●●●●●"  class="i-pad-pro111-email-2" />
 

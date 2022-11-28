@@ -75,9 +75,7 @@
     <span class="texto9">Mis Cuentas</span>
     <span class="texto10">Aqui se encuentran las cuentas que posee esta cuenta</span>
     <span class="texto11">Selecciones una cuenta</span>
-    <select v-model="tipoCuenta" class="cuadrado7">
-        <option v-for="cuenta in cuentas" v-bind:key="cuenta.id"><span class="texto12">{{cuenta.id}}</span></option>
-    </select>
+    <input class="cuadrado7" v-model="cuenta" placeholder="" :disabled="true"/>
     <span class="texto13">Información de la cuenta</span>
     <span class="texto14">Numero de cuenta</span>
     <span class="texto15">{{usuario.numero_cuenta}}</span>
@@ -96,7 +94,7 @@ export default {
             logo:'Inversiones\nRoyale',
             titulo:'Historial de\ntransacciones',
             titulo2:'Realizar\ntransferencias',
-            cuentas:[{'id':'Cuenta Rut'},{'id':'Cuenta Corriente'},{'id':'Cuenta Ahorro'}],
+            cuenta:'Cuenta Rut',
             usuario:[]
         }
     },

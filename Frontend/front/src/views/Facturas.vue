@@ -72,24 +72,30 @@
         />
         <pre class="textoCerrar">Cerrar Sesión</pre>
     </div>
+    
     <!--Desde aqui ya no es la barra lateral-->
     <span class="texto9">Pagos de facturas</span>
     <span class="texto10">Aqui se pueden realizar los pagos de facturas</span>
     <span class="texto11">Seleccione una factura</span>
-    <select v-model="factura" class="drop1">
-        <option v-for="transferencia in transferencias" v-bind:key="transferencia.id">{{transferencia.id}}</option>
+    
+    <!--Se selecciona factura-->
+    <select v-model="factura" class="drop1" :items="facturas" >
+      <option v-if="transferencias.length==0" value="null" disabled>Select Age</option>
+      <option v-for="transferencia in transferencias" v-bind:key="transferencia.id" :value="transferencia" return-object>{{transferencia.factura}}</option>
     </select>
+
     <span class="texto12">Nombre Acreedor</span>
-    <input class="cuadrado7" v-model="nombre" placeholder="Ej: Ricardo Gonzalez"/>
+    <input class="cuadrado7" v-model="factura.nombre_acreedor" placeholder="Seleccione factura para auto-rellenado" :disabled="true"/>
     <span class="texto13">Cuenta Acreedor</span>
-    <input class="cuadrado8" v-model="nombre" placeholder="Ej: 5356 5495 5923 3259"/>
+    <input class="cuadrado8" v-model="factura.cuenta_acreedor" placeholder="Seleccione factura para auto-rellenado" :disabled="true"/>
     <span class="texto14">Fecha de vencimiento</span>
-    <datepicker class="cuadrado9" v-model="fecha" :icon-width="650"></datepicker>
+    <input class="cuadrado9" v-model="factura.fecha" placeholder="Seleccione factura para auto-rellenado" :disabled="true"/>
     <span class="texto15">Monto</span>
-    <input class="cuadrado10" v-model="monto" placeholder="Ej: 20.000"/>
+    <input class="cuadrado10" v-model="factura.monto" placeholder="Seleccione factura para auto-rellenado" :disabled="true"/>
+    <span class="textoMonto">Saldo disponible en tu cuenta: ${{usuario.saldo}}</span>
     <span class="texto16">Mensaje</span>
-    <input class="cuadrado11" v-model="mensaje" placeholder="..."/>
-    <button v-on:click="pagar" class="boton-pago"> <span class="texto-17">Iniciar Sesión</span>  </button>
+    <input class="cuadrado11" v-model="factura.mensaje" placeholder="Seleccione factura para auto-rellenado" :disabled="true" />
+    <button v-on:click="seguro=!seguro" class="boton-pago"> <span class="texto-17">Pagar factura</span>  </button>
     <!--Popup pago exitoso-->
     <Transition name="modal">
     <div v-if="pagoExitoso" class="modal-mask">
@@ -106,18 +112,73 @@
       </div>
     </div>
   </Transition>
+  <!--Popup seguro?-->
+  <Transition name="modal">
+    <div v-if="seguro" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">¿Esta seguro de realizar el pago?</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="pagar()"
+              ><p class="textoPopup">Si</p></button>
+              <button
+                class="modal-default-button"
+                @click="seguro=false"
+              ><p class="textoPopup">no</p></button>
+        </div>
+      </div>
+    </div>
+  </Transition>
   <!--Popup pago fallido-->
   <Transition name="modal">
     <div v-if="pagoFallido" class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
+          <div class="modal-header">
+            <slot name="body">¡OH NO!</slot>
+          </div>
           <div class="modal-body">
-            <slot name="body">No tienes suficiente saldo para pagar esta factura</slot>
+            <slot name="body">Faltan ${{calcular()}} para pagar esta factura. Porfavor acercarse a su sucursal más cercana y recargue su saldo.</slot>
           </div>
               <button
                 class="modal-default-button"
                 @click="fallido()"
               ><p class="textoPopup">Aceptar</p></button>
+        </div>
+      </div>
+    </div>
+  </Transition>
+  <!--Popup sin factura-->
+  <Transition name="modal">
+    <div v-if="sinFactura" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">Debe seleccionar una factura</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="popup3()"
+              ><p class="textoPopup">Aceptar</p></button>
+        </div>
+      </div>
+    </div>
+  </Transition>
+  <!--Popup sin facturas-->
+  <Transition name="modal">
+    <div v-if="sinFacturas && pagoExitoso==false" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">No tiene ninguna factura a pagar. Haga click en el boton para redireccionarlo</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="cuenta()"
+              ><p class="textoPopup">Mis Cuentas</p></button>
         </div>
       </div>
     </div>
@@ -136,35 +197,47 @@ export default {
             titulo:'Historial de\ntransacciones',
             titulo2:'Realizar\ntransferencias',
             transferencias:[{'id':1,'numero':123,'nombre':'nombre1','fecha':'17/03/22','hora':'15:31','monto':'10.000'},{'id':2,'numero':1234,'nombre':'nombre2','fecha':'17/12/22','hora':'18:31','monto':'20.000'}],
-            factura:'',
-            nombre:'',
-            fecha:new Date(),
-            monto:'',
-            mensaje:'',
             pagoExitoso:false,
             pagoFallido:false,
             usuario:[],
-            facturas: null
+            sinFactura:false,
+            sinFacturas:false,
+            // Datos de las facturas
+            facturaSeleccionada: {},
+            facturas: [],           
+            factura:[],
+            mostrar:false,
+            seguro:false,
+
+
         }
     },
     async mounted(){
       
-      const axiosInstance = axios.create({
-        headers: {
-          "Access-Control-Allow-Origin": "*"
-        }
-      });
-
-      let id = "637fef565918d9543961c46e"
-      let response = await axiosInstance.get('http://localhost:8888/cuenta/allFC/' + id);
-      this.facturas = response.data;
-      console.log(this.transferencias)
+      this.getFacturas()
       this.getUsuario()
+      
+      
     },
 
     methods:{
+      async getFacturas(){
+        const axiosInstance = axios.create({
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
+
+        let response = await axiosInstance.get('http://localhost:8888/cuenta/noPagadas/' + this.$route.params.id);
+        this.transferencias = response.data;
+        console.log(this.transferencias)
+        if (this.transferencias.length==0){
+          this.sinFacturas=true
+        }
+      },
       cuenta(){
         this.$router.push("/MisCuentas/"+this.$route.params.id)
+        console.log
         },
       historial(){
         this.$router.push("/Historial/"+this.$route.params.id)
@@ -172,6 +245,10 @@ export default {
       facturas(){
         this.$router.push("/Facturas/"+this.$route.params.id)
         },
+      asignarFactura(factura){
+        this.factura=factura
+        return this.factura
+      },
         construccion(){
             this.$router.push("/construccion")
         },
@@ -184,6 +261,12 @@ export default {
         inicio(){
             this.$router.push("/")
         },
+        popup3(){
+          this.sinFactura=!this.sinFactura
+        },
+        calcular(){
+          return (this.factura.monto - this.usuario.saldo)
+        },
         async getUsuario(){
           const axiosInstance = axios.create({
               headers: {
@@ -194,6 +277,29 @@ export default {
           let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
           this.usuario = response.data;
           console.log(this.usuario)
+        },
+        async pagar(){
+          this.seguro=!this.seguro
+          const axiosInstance = axios.create({
+          headers: {
+              "Access-Control-Allow-Origin": "*"
+            }
+          });
+          if(this.factura.length==0){
+            this.popup3()
+            return 0
+          }
+          let response = await axiosInstance.post('http://localhost:8888/factura/pagarFactura',{'id_user':this.$route.params.id,'id_factura':this.factura.id});
+          console.log(response.data)
+          if(response.data=="No se tiene suficiente dinero en la cuenta"){
+            this.pagoFallido=true
+          }
+          else{
+            this.getFacturas()
+            this.getUsuario()
+            this.factura=[]
+            this.pago()
+          }
         }
     }
 }
@@ -485,6 +591,20 @@ export default {
   font-size: 17px;
   color:#ffffff
 }
+.textoMonto {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 615px;
+  left: 430px;
+  font-size: 13px;
+  color:#64748B
+}
 .textoPopup{
   color:#ffffff;
   font-size: 17px;
@@ -572,10 +692,10 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
   border-width: 1px;
-  background-color: rgb(255, 255, 255);
+  background-color:#d6dbe3;
   border-radius: 10px;
+  cursor:not-allowed;
 }
 .cuadrado8 {
   top: 370px;
@@ -586,21 +706,24 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;  
+  background-color:#d6dbe3; 
   border-width: 1px;
   border-radius: 10px;
+  cursor:not-allowed;
 }
 .cuadrado9 {
   top: 470px;
   left: 430px;
+  width: 780px;
   height: 40px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;  
+  background-color:#d6dbe3;  
   border-width: 1px;
   border-radius: 10px;
+  cursor:not-allowed;
 }
 .cuadrado10 {
   top: 570px;
@@ -611,9 +734,10 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;  
+  background-color:#d6dbe3;  
   border-width: 1px;
   border-radius: 10px;
+  cursor:not-allowed;
 }
 .cuadrado11 {
   top: 670px;
@@ -624,7 +748,7 @@ export default {
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;  
+  background-color:#d6dbe3; 
   border-width: 1px;
   border-radius: 10px;
 }
@@ -639,7 +763,7 @@ export default {
   width: 780px;
   height: 40px;
   border-width: 1px;
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   border-radius: 10px;
 }
 .boton-pago {
@@ -685,9 +809,18 @@ export default {
   transition: all 0.3s ease;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.modal-header{
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: 0px;
+  left: 106px;
+  font-size: 20px;
+  color:#059669;
 }
 
 .modal-body {
@@ -698,12 +831,11 @@ export default {
   align-items: flex-start;
   border-color: transparent;
   margin-bottom: 24px;
-  flex-direction: column;
   font-weight: bolder;
   top: 0px;
   left: 0px;
-  font-size: 40px;
-  color:#059669
+  font-size: 20px;
+  color:#059669;
 }
 
 .modal-default-button {
