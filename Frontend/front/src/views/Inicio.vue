@@ -30,26 +30,28 @@
       <input v-if="show" v-model="contrasena" placeholder="●●●●●●●●●●●●●●"  class="i-pad-pro111-email-2" type="password"/>
       <input v-else v-model="contrasena" placeholder="●●●●●●●●●●●●●●"  class="i-pad-pro111-email-2" />
 
-      <div v-if="show">
+      <div v-if="show" class="control">
         <img
               src="../playground_assets/eye.png"
               alt="imagen2022110220562846116177"
-              class="control"
+              class="ojo"
               v-on:click="verContrasena"
             />
       </div>
-      <div v-else>
+      <div v-else class="control">
         <img
               src="../playground_assets/eye-close.png"
               alt="imagen2022110220562846116177"
-              class="control"
+              class="ojo"
               v-on:click="verContrasena"
             />
       </div>
       <button v-on:click="cuenta" class="boton-ingreso"> <span class="texto-6">Iniciar Sesión</span>  </button>
       </div>
-      <span class="texto7" v-if="show2">Ingrese un rut/Ingrese correctamente el rut.</span>
-      <span class="texto8" v-if="show3">Ingrese una contraseña/Contraseña incorrecta.</span>
+      <span class="texto7" v-if="show2">Ingrese correctamente el rut.</span>
+      <span class="texto8" v-if="show3">Contraseña incorrecta.</span>
+      <span class="texto7" v-if="show4">Ingrese un rut.</span>
+      <span class="texto8" v-if="show5">Ingrese una contraseña</span>
   </div>
 </template>
 
@@ -67,7 +69,9 @@ export default {
     respuesta: null,
     show:true,
     show2:false,
-    show3:false
+    show3:false,
+    show4:false,
+    show5:false,
     }
   },
   methods:{
@@ -76,10 +80,23 @@ export default {
     },
     async cuenta(){
       let id= "1"
-
+      this.show2=false
+      this.show3=false
+      this.show4=false
+      this.show5=false
       console.log(this.rut);
       console.log(this.contrasena);
-
+      if(this.rut==""){
+        this.show2=false
+        this.show4=true
+      }
+      if(this.contrasena==""){
+        this.show3=false
+        this.show5=true
+      }
+      if(this.contrasena=="" || this.rut==""){
+        return 0
+      }
       const payload = {
         username: this.rut,
         password: this.contrasena
@@ -313,6 +330,16 @@ export default {
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
+  cursor: pointer;
+}
+.ojo {
+  top:4px;
+  left: 0px;
+  width: 40px;
+  height: 25px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
   cursor: pointer;
 }
 </style>

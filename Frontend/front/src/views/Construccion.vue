@@ -5,7 +5,7 @@
         class="logo"
     />
     <span class="texto1">Lo sentimos, pagina en construcción</span>
-    <span class="texto2"> Haga click </span>
+    <span class="texto2"> Haga clic </span>
     <span v-on:click="retroceder" class="texto3">Aqui</span>
     <span class="texto4"> para volver </span>
 </template>

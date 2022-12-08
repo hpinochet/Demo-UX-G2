@@ -1,3 +1,4 @@
+
 <template>
     <img
         src="../playground_assets/imagen2022110220562846116177-tg1t-200h.png"
@@ -37,7 +38,7 @@
         alt="imagen2022110220562846116177"
         class="imagen3"
         />
-        <pre class="texto4">Pagos de facturas</pre>
+        <pre class="texto4">Pago facturas</pre>
     </div>
     <div class="cuadrado5" v-on:click="construccion">
         <img
@@ -45,7 +46,7 @@
         alt="imagen2022110220562846116177"
         class="imagen4"
         />
-        <pre class="texto4">Pagos de servicios</pre>
+        <pre class="texto4">Pago servicios</pre>
     </div>
     <div class="cuadrado6" v-on:click="construccion">
         <img
@@ -63,57 +64,59 @@
     <span class="texto5">Perfil</span>
     <span class="texto6">{{usuario.username}}</span>
     <span class="texto7">{{usuario.tipo_cuenta}}</span>
-    <div class="cuadrado7" v-on:click="inicio">
+    <div class="cuadradoCerrar" v-on:click="inicio">
         <img
         src="../playground_assets/logout.svg"
         alt="imagen2022110220562846116177"
-        class="imagen6"
+        class="imagenCerrar"
         />
         <pre class="textoCerrar">Cerrar Sesión</pre>
     </div>
     <!--Desde aqui ya no es la barra lateral-->
+    <div class="tabla" >
+      <table class="table stripped bordered" border=1 frame=void rules=rows>
+        <thead>
+          <tr >
+            <th>N° de transacción</th>
+            <th>Nombre de depositante</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Monto</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="transferencia in transferencias">
+            <td>{{ transferencia.numero }}</td>
+            <td>Pago de factura-{{transferencia.username}}</td>
+            <td>{{ transferencia.fecha }}</td>
+            <td>{{ transferencia.hora }}</td>
+            <td>${{ transferencia.monto }}</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
     <span class="texto9">Historial de transacciones</span>
-    <span class="texto10">Aqui se encuentran las transacciones realizadas</span>
-    <span class="texto11">N° de transacción</span>
-    <span class="texto12">Nombre de depositante</span>
-    <span class="texto13">Fecha</span>
-    <span class="texto14">Hora</span>
-    <span class="texto15">Monto</span>
-    <div class="texto16">
-      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
-        <v-row>
-            <label for="transferencia.id">{{ transferencia.numero }}</label>
-        </v-row>
+    <span class="texto10">Aquí se encuentran las transacciones realizadas</span>
+    <!--Popup nada-->
+  <Transition name="modal">
+    <div v-if="(transferencias.length==0)" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-body">
+            <slot name="body">No tiene ninguna factura. Haga clic en el botón para ir a "Mis Cuentas"</slot>
+          </div>
+              <button
+                class="modal-default-button"
+                @click="cuenta()"
+              ><p class="textoPopup">Mis Cuentas</p></button>
+              
+        </div>
       </div>
     </div>
-    <div class="texto17">
-      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
-        <v-row>
-          <span  >Pago de factura-{{transferencia.username}}</span>
-        </v-row>
-      </div>
-    </div>
-    <div class="texto18">
-      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
-        <v-row>
-          <span  >{{ transferencia.fecha }} </span>
-        </v-row>
-      </div>
-    </div>
-    <div class="texto19">
-      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
-        <v-row>
-          <span  >{{ transferencia.hora }}</span>
-        </v-row>
-      </div>
-    </div>
-    <div class="texto20">
-      <div v-for="transferencia in transferencias" v-bind:key="transferencia.id" >
-        <v-row>
-          <span  >{{ transferencia.monto }}</span>
-        </v-row>
-      </div>
-    </div>
+  </Transition>
 </template>
 <script>
 import axios from 'axios'
@@ -179,71 +182,6 @@ export default {
   width:100%;
   border: solid;
 }
-.logo {
-  top: 20px;
-  left: 20px;
-  width: 200px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen1 {
-  top: 10px;
-  left: -80px;
-  width: 75px;
-  height: 70px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen2 {
-  top: 10px;
-  left: -80px;
-  width: 74px;
-  height: 76px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen3 {
-  top: 10px;
-  left: -95px;
-  width: 74px;
-  height: 76px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen4 {
-  top: 10px;
-  left: -100px;
-  width: 74px;
-  height: 76px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen5 {
-  top:950px;
-  left: 20px;
-  width: 350px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
 .imagen6 {
   top:0px;
   left: -70px;
@@ -255,113 +193,7 @@ export default {
   border-width: 1px;
   border-radius: 4px;
 }
-.texto1 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 30px;
-  left: 230px;
-  font-size: 25px;
-  color:#059669
-}
-.texto2 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -40px;
-  left: 120px;
-  font-size: 22px;
-}
-.texto3 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -80px;
-  left: 120px;
-  font-size: 22px;
-}
-.texto4 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -70px;
-  left: 105px;
-  font-size: 22px;
-}
-.texto5 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 975px;
-  left: 50px;
-  font-size: 22px;
-  color:#64748B;
-}
-.texto6 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 1025px;
-  left: 50px;
-  font-size: 18px;
-}
-.texto7 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 1050px;
-  left: 50px;
-  font-size: 18px;
-  color:#A0ABBB
-}
-.texto8 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 1075px;
-  left: 50px;
-  font-size: 18px;
-}
+
 .texto9 {
   display: flex;
   position: absolute;
@@ -390,21 +222,183 @@ export default {
   font-size: 22px;
   color:#64748B
 }
-.texto11 {
-  display: flex;
+
+.cuadrado7{
+  top:1110px;
+  left: 10px;
+  width: 320px;
+  height: 100px;
   position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.tabla{
   top: 150px;
   left: 430px;
-  font-size: 17px;
-  color:#64748B
+  position: absolute;
 }
-.texto12 {
+table {
+  border-collapse: separate;
+  border-spacing: 10px 0;
+}
+td {
+  padding: 20px 0;
+}
+.modal-default-button {
+  cursor: pointer;
+  top: 0px;
+  left: 0px;
+  width: 150px;
+  height: 40px;
+  position: relative;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgb(14, 65, 15);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  background-color: #047857;
+}
+.textoPopup{
+  color:#ffffff;
+  font-size: 17px;
+  top:-10px;
+  position:relative;
+}
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
+
+.modal-header{
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: 0px;
+  left: 106px;
+  font-size: 20px;
+  color:#059669;
+}
+
+.modal-body {
+  margin: 20px 0;
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: 0px;
+  left: 0px;
+  font-size: 20px;
+  color:#059669;
+}
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+.logo {
+  top: 20px;
+  left: 20px;
+  width: 150px;
+  height: 75px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.texto1 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 8px;
+  left: 180px;
+  font-size: 23px;
+  color:#059669
+}
+.texto2 {
+  position: relative;
+  margin-bottom: 100px;
+  font-weight: bolder;
+  top: 0px;
+  left: 0px;
+  font-size: 22px;
+}
+.texto3 {
+  position: relative;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: -80px;
+  left: 100px;
+  font-size: 22px;
+}
+.texto4 {
+  position: relative;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: -70px;
+  left: 100px;
+  font-size: 22px;
+}
+.texto5 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 100px;
+  left: 50px;
+  font-size: 22px;
+  color:#64748B;
+}
+.texto6 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 125px;
+  left: 50px;
+  font-size: 18px;
+}
+.texto7 {
   display: flex;
   position: absolute;
   align-self: stretch;
@@ -414,116 +408,9 @@ export default {
   flex-direction: column;
   font-weight: bolder;
   top: 150px;
-  left: 650px;
-  font-size: 17px;
-  color:#64748B
-}
-.texto13 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 150px;
-  left: 920px;
-  font-size: 17px;
-  color:#64748B
-}
-.texto14 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 150px;
-  left: 1050px;
-  font-size: 17px;
-  color:#64748B
-}
-.texto15{
-    display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 150px;
-  left: 1150px;
-  font-size: 17px;
-  color:#64748B
-}
-.texto16{
-    display: flex;
-    position: absolute;
-    align-self: stretch;
-    align-items: flex-start;
-    border-color: transparent;
-    margin-bottom: 24px;
-    flex-direction: column;
-    font-weight: bolder;
-    top: 200px;
-    left: 430px;
-    font-size: 17px;
-}
-.texto17 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 200px;
-  left: 650px;
-  font-size: 17px;
-}
-.texto18 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 200px;
-  left: 920px;
-  font-size: 17px;
-}
-.texto19 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 200px;
-  left: 1050px;
-  font-size: 17px;
-}
-.texto20{
-    display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 200px;
-  left: 1150px;
-  font-size: 17px;
+  left: 49px;
+  font-size: 18px;
+  color:#A0ABBB
 }
 .textoCerrar {
   display: flex;
@@ -538,80 +425,8 @@ export default {
   left: 105px;
   font-size: 17px;
 }
-.cuadrado1 {
-  top:200px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado2 {
-  top:325px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #E7EAEE;
-  cursor: pointer;
-}
-.cuadrado3 {
-  top:450px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado4 {
-  top:575px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado5 {
-  top:700px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado6 {
-  top:825px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado7{
-  top:1110px;
+.cuadradoCerrar{
+  top:650px;
   left: 10px;
   width: 320px;
   height: 100px;
@@ -621,5 +436,157 @@ export default {
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+}
+.imagenCerrar {
+  top:0px;
+  left: -70px;
+  width: 30px;
+  height: 15px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.cuadrado1 {
+  top:200px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #E7EAEE;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado2 {
+  top:270px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado3 {
+  top:340px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado4 {
+  top:410px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado5 {
+  top:480px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado6 {
+  top:550px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.imagen1 {
+  top: 10px;
+  left: -30px;
+  width: 55px;
+  height: 50px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen2 {
+  top: 10px;
+  left: -90px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen3 {
+  top: 10px;
+  left: -95px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen4 {
+  top: 10px;
+  left: -100px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen5 {
+  top:175px;
+  left: 20px;
+  width: 350px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+pre {
+  width:50%;
 }
 </style>

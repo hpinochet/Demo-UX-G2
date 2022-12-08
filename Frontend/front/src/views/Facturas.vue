@@ -37,7 +37,7 @@
         alt="imagen2022110220562846116177"
         class="imagen3"
         />
-        <pre class="texto4">Pagos de facturas</pre>
+        <pre class="texto4">Pago facturas</pre>
     </div>
     <div class="cuadrado5" v-on:click="construccion">
         <img
@@ -45,7 +45,7 @@
         alt="imagen2022110220562846116177"
         class="imagen4"
         />
-        <pre class="texto4">Pagos de servicios</pre>
+        <pre class="texto4">Pago servicios</pre>
     </div>
     <div class="cuadrado6" v-on:click="construccion">
         <img
@@ -61,9 +61,8 @@
         class="imagen5"
         />
     <span class="texto5">Perfil</span>
-    <span class="texto6">Nombre</span>
-    <span class="texto7">Correo</span>
-    <span class="texto8">Cuenta Corriente</span>
+    <span class="texto6">{{usuario.username}}</span>
+    <span class="texto7">{{usuario.tipo_cuenta}}</span>
     <div class="cuadradoCerrar" v-on:click="inicio">
         <img
         src="../playground_assets/logout.svg"
@@ -95,7 +94,7 @@
     <span class="textoMonto">Saldo disponible en tu cuenta: ${{usuario.saldo}}</span>
     <span class="texto16">Mensaje</span>
     <input class="cuadrado11" v-model="factura.mensaje" placeholder="Seleccione factura para auto-rellenado" :disabled="true" />
-    <button v-on:click="seguro=!seguro" class="boton-pago"> <span class="texto-17">Pagar factura</span>  </button>
+    <button v-on:click="confirmar()" class="boton-pago"> <span class="texto-17">Pagar factura</span>  </button>
     <!--Popup pago exitoso-->
     <Transition name="modal">
     <div v-if="pagoExitoso" class="modal-mask">
@@ -121,13 +120,22 @@
             <slot name="body">¿Esta seguro de realizar el pago?</slot>
           </div>
               <button
-                class="modal-default-button"
+                class="modal-default-button-si"
                 @click="pagar()"
-              ><p class="textoPopup">Si</p></button>
+              ><p class="textoPopup">Si</p> <img
+              src="../playground_assets/cheque.png"
+              alt="imagen2022110220562846116177"
+              class="imagen-si"
+              /></button>
               <button
-                class="modal-default-button"
-                @click="seguro=false"
-              ><p class="textoPopup">No</p></button>
+                class="modal-default-button-no"
+                @click="cancelar()"
+              ><p class="textoPopup">No</p>
+              <img
+              src="../playground_assets/cruzar.png"
+              alt="imagen2022110220562846116177"
+              class="imagen-no"
+              /></button>
         </div>
       </div>
     </div>
@@ -173,7 +181,7 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-body">
-            <slot name="body">No tiene ninguna factura a pagar. Haga click en el boton para redireccionarlo</slot>
+            <slot name="body">No tiene ninguna factura a pagar. Haga clic en el boton para redireccionarlo</slot>
           </div>
               <button
                 class="modal-default-button"
@@ -249,58 +257,66 @@ export default {
         this.factura=factura
         return this.factura
       },
-        construccion(){
-            this.$router.push("/construccion")
-        },
-        pago(){
-          this.pagoExitoso=!this.pagoExitoso
-        },
-        fallido(){
-          this.pagoFallido=!this.pagoFallido
-        },
-        inicio(){
-            this.$router.push("/")
-        },
-        popup3(){
-          this.sinFactura=!this.sinFactura
-        },
-        calcular(){
-          return (this.factura.monto - this.usuario.saldo)
-        },
-        async getUsuario(){
-          const axiosInstance = axios.create({
-              headers: {
-                  "Access-Control-Allow-Origin": "*"
-              }
-          });
-          
-          let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
-          this.usuario = response.data;
-          console.log(this.usuario)
-        },
-        async pagar(){
-          this.seguro=!this.seguro
-          const axiosInstance = axios.create({
-          headers: {
-              "Access-Control-Allow-Origin": "*"
+      construccion(){
+          this.$router.push("/construccion")
+      },
+      pago(){
+        this.pagoExitoso=!this.pagoExitoso
+      },
+      fallido(){
+        this.pagoFallido=!this.pagoFallido
+      },
+      inicio(){
+          this.$router.push("/")
+      },
+      popup3(){
+        this.sinFactura=!this.sinFactura
+      },
+      calcular(){
+        return (this.factura.monto - this.usuario.saldo)
+      },
+      async getUsuario(){
+        const axiosInstance = axios.create({
+            headers: {
+                "Access-Control-Allow-Origin": "*"
             }
-          });
-          if(this.factura.length==0){
-            this.popup3()
-            return 0
+        });
+        
+        let response = await axiosInstance.get('http://localhost:8888/cuenta/findCu/'+this.$route.params.id);
+        this.usuario = response.data;
+        console.log(this.usuario)
+      },
+      async pagar(){
+        this.seguro=!this.seguro
+        const axiosInstance = axios.create({
+        headers: {
+            "Access-Control-Allow-Origin": "*"
           }
-          let response = await axiosInstance.post('http://localhost:8888/factura/pagarFactura',{'id_user':this.$route.params.id,'id_factura':this.factura.id});
-          console.log(response.data)
-          if(response.data=="No se tiene suficiente dinero en la cuenta"){
-            this.pagoFallido=true
-          }
-          else{
-            this.getFacturas()
-            this.getUsuario()
-            this.factura=[]
-            this.pago()
-          }
+        });
+        let response = await axiosInstance.post('http://localhost:8888/factura/pagarFactura',{'id_user':this.$route.params.id,'id_factura':this.factura.id});
+        console.log(response.data)
+        if(response.data=="No se tiene suficiente dinero en la cuenta"){
+          this.pagoFallido=true
         }
+        else{
+          this.getFacturas()
+          this.getUsuario()
+          this.factura=[]
+          this.pago()
+        }
+      },
+      confirmar(){
+        if (this.factura.length==0){
+          this.sinFacturas=true
+        }
+        else{
+          this.seguro=true
+        }
+      },
+      cancelar(){
+        this.seguro=!this.seguro
+        this.factura=[]
+      }
     }
 }
 </script>
@@ -309,165 +325,29 @@ export default {
   width:100%;
   border: solid;
 }
-.logo {
-  top: 20px;
-  left: 20px;
-  width: 200px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen1 {
-  top: 10px;
-  left: -80px;
-  width: 75px;
-  height: 70px;
+.imagen-si {
+  top: -48px;
+  left: 25px;
+  width: 20px;
+  height: 20px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
   border-width: 1px;
   border-radius: 4px;
 }
-.imagen2 {
-  top: 10px;
-  left: -80px;
-  width: 74px;
-  height: 76px;
+.imagen-no {
+  top: -48px;
+  left: 27px;
+  width: 23px;
+  height: 23px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
   border-width: 1px;
   border-radius: 4px;
 }
-.imagen3 {
-  top: 10px;
-  left: -95px;
-  width: 74px;
-  height: 76px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen4 {
-  top: 10px;
-  left: -100px;
-  width: 74px;
-  height: 76px;
-  position: relative;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.imagen5 {
-  top:950px;
-  left: 20px;
-  width: 350px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-width: 1px;
-  border-radius: 4px;
-}
-.texto1 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 30px;
-  left: 230px;
-  font-size: 25px;
-  color:#059669
-}
-.texto2 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -40px;
-  left: 120px;
-  font-size: 22px;
-}
-.texto3 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -80px;
-  left: 120px;
-  font-size: 22px;
-}
-.texto4 {
-  display: flex;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: -70px;
-  left: 105px;
-  font-size: 22px;
-}
-.texto5 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 975px;
-  left: 50px;
-  font-size: 22px;
-  color:#64748B;
-}
-.texto6 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 1025px;
-  left: 50px;
-  font-size: 18px;
-}
-.texto7 {
-  display: flex;
-  position: absolute;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
-  font-weight: bolder;
-  top: 1050px;
-  left: 50px;
-  font-size: 18px;
-  color:#A0ABBB
-}
+
 .texto8 {
   display: flex;
   position: absolute;
@@ -611,78 +491,7 @@ export default {
   top:-10px;
   position:relative;
 }
-.cuadrado1 {
-  top:200px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado2 {
-  top:325px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: rgb(255, 255, 255);
-  cursor: pointer;
-}
-.cuadrado3 {
-  top:450px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado4 {
-  top:575px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #E7EAEE;
-  cursor: pointer;
-}
-.cuadrado5 {
-  top:700px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
-.cuadrado6 {
-  top:825px;
-  left: 20px;
-  width: 320px;
-  height: 100px;
-  position: absolute;
-  box-sizing: border-box;
-  object-fit: cover;
-  border-color: rgba(1, 73, 4, 1);
-  background-color: #ffffff;
-  cursor: pointer;
-}
+
 .cuadrado7 {
   top: 270px;
   left: 430px;
@@ -854,6 +663,38 @@ export default {
   border-radius: 4px;
   background-color: #047857;
 }
+.modal-default-button-si {
+  cursor: pointer;
+  top: 0px;
+  left: -35px;
+  width: 100px;
+  height: 40px;
+  position: relative;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgb(14, 65, 15);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  background-color: #047857;
+}
+.modal-default-button-no {
+  cursor: pointer;
+  top: 0px;
+  left: 35px;
+  width: 100px;
+  height: 40px;
+  position: relative;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgb(14, 65, 15);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  background-color: #047857;
+}
 .modal-enter-from {
   opacity: 0;
 }
@@ -902,5 +743,271 @@ export default {
   top: -40px;
   left: 105px;
   font-size: 17px;
+}
+.logo {
+  top: 20px;
+  left: 20px;
+  width: 150px;
+  height: 75px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.texto1 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 8px;
+  left: 180px;
+  font-size: 23px;
+  color:#059669
+}
+.texto2 {
+  position: relative;
+  margin-bottom: 100px;
+  font-weight: bolder;
+  top: 0px;
+  left: 0px;
+  font-size: 22px;
+}
+.texto3 {
+  position: relative;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: -80px;
+  left: 100px;
+  font-size: 22px;
+}
+.texto4 {
+  position: relative;
+  margin-bottom: 24px;
+  font-weight: bolder;
+  top: -70px;
+  left: 100px;
+  font-size: 22px;
+}
+.texto5 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 100px;
+  left: 50px;
+  font-size: 22px;
+  color:#64748B;
+}
+.texto6 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 125px;
+  left: 50px;
+  font-size: 18px;
+}
+.texto7 {
+  display: flex;
+  position: absolute;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: 150px;
+  left: 49px;
+  font-size: 18px;
+  color:#A0ABBB
+}
+.textoCerrar {
+  display: flex;
+  position: relative;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: transparent;
+  margin-bottom: 24px;
+  flex-direction: column;
+  font-weight: bolder;
+  top: -40px;
+  left: 105px;
+  font-size: 17px;
+}
+.cuadradoCerrar{
+  top:650px;
+  left: 10px;
+  width: 320px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.imagenCerrar {
+  top:0px;
+  left: -70px;
+  width: 30px;
+  height: 15px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.cuadrado1 {
+  top:200px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #E7EAEE;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado2 {
+  top:270px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado3 {
+  top:340px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado4 {
+  top:410px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado5 {
+  top:480px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.cuadrado6 {
+  top:550px;
+  left: 20px;
+  width: 320px;
+  height: 70px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+}
+.imagen1 {
+  top: 10px;
+  left: -30px;
+  width: 55px;
+  height: 50px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen2 {
+  top: 10px;
+  left: -90px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen3 {
+  top: 10px;
+  left: -95px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen4 {
+  top: 10px;
+  left: -100px;
+  width: 54px;
+  height: 56px;
+  position: relative;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.imagen5 {
+  top:175px;
+  left: 20px;
+  width: 350px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-width: 1px;
+  border-radius: 4px;
+}
+pre {
+  width:50%;
 }
 </style>

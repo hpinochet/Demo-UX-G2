@@ -4,6 +4,7 @@
         alt="imagen2022110220562846116177"
         class="logo"
     />
+
     <div class="texto1">
         <pre>{{logo}}</pre>
     </div>
@@ -37,7 +38,7 @@
         alt="imagen2022110220562846116177"
         class="imagen3"
         />
-        <pre class="texto4">Pagos de facturas</pre>
+        <pre class="texto4">Pago facturas</pre>
     </div>
     <div class="cuadrado5" v-on:click="construccion">
         <img
@@ -45,9 +46,9 @@
         alt="imagen2022110220562846116177"
         class="imagen4"
         />
-        <pre class="texto4">Pagos de servicios</pre>
+        <pre class="texto4">Pago servicios</pre>
     </div>
-    <div class="cuadrado6" v-on:click="contruccion">
+    <div class="cuadrado6" v-on:click="construccion">
         <img
         src="../playground_assets/ajustes.svg"
         alt="imagen2022110220562846116177"
@@ -73,10 +74,14 @@
     </div>
     <!--Desde aqui ya no es la barra lateral-->
     <span class="texto9">Mis Cuentas</span>
-    <span class="texto10">Aqui se encuentran las cuentas que posee esta cuenta</span>
-    <span class="texto11">Selecciones una cuenta</span>
+    <span class="texto10">Aquí puede encontrar sus cuentas</span>
+    <span class="texto11">Seleccione una cuenta</span>
     <input class="cuadrado7" v-model="cuenta" placeholder="" :disabled="true"/>
     <span class="texto13">Información de la cuenta</span>
+    <div class="cajaDato1"></div>
+    <div class="cajaDato2"></div>
+    <div class="cajaDato3"></div>
+    <div class="cajaNumeroCuenta"></div>
     <span class="texto14">Numero de cuenta</span>
     <span class="texto15">{{usuario.numero_cuenta}}</span>
     <span class="texto16">Tipo de cuenta</span>
@@ -140,8 +145,8 @@ export default {
 .logo {
   top: 20px;
   left: 20px;
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: 75px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
@@ -149,9 +154,9 @@ export default {
 }
 .imagen1 {
   top: 10px;
-  left: -80px;
-  width: 75px;
-  height: 70px;
+  left: -30px;
+  width: 55px;
+  height: 50px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
@@ -160,9 +165,9 @@ export default {
 }
 .imagen2 {
   top: 10px;
-  left: -80px;
-  width: 74px;
-  height: 76px;
+  left: -90px;
+  width: 54px;
+  height: 56px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
@@ -172,8 +177,8 @@ export default {
 .imagen3 {
   top: 10px;
   left: -95px;
-  width: 74px;
-  height: 76px;
+  width: 54px;
+  height: 56px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
@@ -183,8 +188,8 @@ export default {
 .imagen4 {
   top: 10px;
   left: -100px;
-  width: 74px;
-  height: 76px;
+  width: 54px;
+  height: 56px;
   position: relative;
   box-sizing: border-box;
   object-fit: cover;
@@ -192,7 +197,7 @@ export default {
   border-radius: 4px;
 }
 .imagen5 {
-  top:950px;
+  top:175px;
   left: 20px;
   width: 350px;
   position: absolute;
@@ -210,48 +215,33 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 30px;
-  left: 230px;
-  font-size: 25px;
+  top: 8px;
+  left: 180px;
+  font-size: 23px;
   color:#059669
 }
 .texto2 {
-  display: flex;
   position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
-  margin-bottom: 24px;
-  flex-direction: column;
+  margin-bottom: 100px;
   font-weight: bolder;
-  top: -40px;
-  left: 120px;
+  top: 0px;
+  left: 0px;
   font-size: 22px;
 }
 .texto3 {
-  display: flex;
   position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
   margin-bottom: 24px;
-  flex-direction: column;
   font-weight: bolder;
   top: -80px;
-  left: 120px;
+  left: 100px;
   font-size: 22px;
 }
 .texto4 {
-  display: flex;
   position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: transparent;
   margin-bottom: 24px;
-  flex-direction: column;
   font-weight: bolder;
   top: -70px;
-  left: 105px;
+  left: 100px;
   font-size: 22px;
 }
 .texto5 {
@@ -263,7 +253,7 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 975px;
+  top: 100px;
   left: 50px;
   font-size: 22px;
   color:#64748B;
@@ -277,7 +267,7 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 1025px;
+  top: 125px;
   left: 50px;
   font-size: 18px;
 }
@@ -290,8 +280,8 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 1050px;
-  left: 50px;
+  top: 150px;
+  left: 49px;
   font-size: 18px;
   color:#A0ABBB
 }
@@ -345,8 +335,8 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 250px;
-  left: 645px;
+  top: 190px;
+  left: 780px;
   font-size: 14px;
 }
 .texto12 {
@@ -371,7 +361,7 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 475px;
+  top: 305px;
   left: 600px;
   font-size: 50px;
 }
@@ -384,8 +374,8 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 550px;
+  top: 405px;
+  left: 530px;
   font-size: 22px;
 }
 .texto15 {
@@ -396,8 +386,8 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
-  left: 550px;
+  top: 480px;
+  left: 580px;
   font-size: 22px;
   color:#667085
 }
@@ -410,8 +400,8 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 850px;
+  top: 405px;
+  left: 820px;
   font-size: 22px;
 }
 .texto17 {
@@ -422,7 +412,7 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
+  top: 480px;
   left: 850px;
   font-size: 22px;
   color:#667085
@@ -436,8 +426,8 @@ export default {
   margin-bottom: 24px;
   flex-direction: column;
   font-weight: bolder;
-  top: 575px;
-  left: 1150px;
+  top: 405px;
+  left: 1120px;
   font-size: 22px;
 }
 .texto19 {
@@ -448,8 +438,8 @@ export default {
   border-color: transparent;
   margin-bottom: 24px;
   flex-direction: column;
-  top: 650px;
-  left: 1150px;
+  top: 480px;
+  left: 1120px;
   font-size: 22px;
   color:#667085
 }
@@ -457,78 +447,90 @@ export default {
   top:200px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
-  object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #E7EAEE;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
+  object-fit: cover;
 }
 .cuadrado2 {
-  top:325px;
+  top:270px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
 }
 .cuadrado3 {
-  top:450px;
+  top:340px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
 }
 .cuadrado4 {
-  top:575px;
+  top:410px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
 }
 .cuadrado5 {
-  top:700px;
+  top:480px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
 }
 .cuadrado6 {
-  top:825px;
+  top:550px;
   left: 20px;
   width: 320px;
-  height: 100px;
+  height: 70px;
   position: absolute;
   box-sizing: border-box;
   object-fit: cover;
   border-color: rgba(1, 73, 4, 1);
   background-color: #ffffff;
   cursor: pointer;
+  border-style: solid;
+  border-width: 3px;
 }
 .cuadrado7 {
-  top:275px;
-  left: 645px;
-  width: 300px;
+  top: 215px;
+  left: 760px;
+  width: 200px;
   height: 40px;
   position: absolute;
   box-sizing: border-box;
@@ -542,7 +544,7 @@ export default {
   border-radius: 10px;
 }
 .cuadradoCerrar{
-  top:1110px;
+  top:650px;
   left: 10px;
   width: 320px;
   height: 100px;
@@ -576,5 +578,62 @@ export default {
   top: -40px;
   left: 105px;
   font-size: 17px;
+}
+.cajaNumeroCuenta {
+  top:390px;
+  left: 500px;
+  width: 801px;
+  height: 50px;
+  position: absolute;
+  box-sizing: border-box;
+  object-fit: cover;
+  border-color: rgba(1, 73, 4, 1);
+  background-color: #E7EAEE;
+  cursor: pointer;
+}
+.cajaDato1 {
+  top:440px;
+  left: 500px;
+  width: 267px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  border-color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0px;
+}
+.cajaDato2 {
+  top:440px;
+  left: 767px;
+  width: 267px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  border-color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0px;
+}
+.cajaDato3 {
+  top:440px;
+  left: 1034px;
+  width: 267px;
+  height: 100px;
+  position: absolute;
+  box-sizing: border-box;
+  border-color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0px;
+}
+pre {
+  width:50%;
 }
 </style>
