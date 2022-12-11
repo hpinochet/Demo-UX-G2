@@ -4,7 +4,7 @@
         alt="imagen2022110220562846116177"
         class="logo"
     />
-    <span class="texto1">Lo sentimos, pagina en construcción</span>
+    <span class="texto1">Lo sentimos, página en construcción</span>
     <span class="texto2"> Haga clic </span>
     <span v-on:click="retroceder" class="texto3">Aqui</span>
     <span class="texto4"> para volver </span>
