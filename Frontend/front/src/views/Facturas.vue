@@ -307,7 +307,7 @@ export default {
       },
       confirmar(){
         if (this.factura.length==0){
-          this.sinFacturas=true
+          this.sinFactura=true
         }
         else{
           this.seguro=true
